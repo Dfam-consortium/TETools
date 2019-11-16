@@ -155,6 +155,7 @@ elif [ "$use_singularity" = 1 ]; then
 	if [ $# -eq 0 ]; then
 		set -- "/bin/bash"
 	fi
+	export LANG=C
 	singularity exec \
 		-B "$trf_path":/opt/trf:ro \
 		"$container" \

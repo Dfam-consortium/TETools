@@ -55,10 +55,10 @@ RUN echo 'a6aa7f158a3cef90fea8d0fe24bfad0c3ee96b17b3ba0c1f6462582593af679e  gt-1
     && make cleanup
 
 # Configure LTR_retriever
-RUN echo 'a9ffaa26543eddb4fbb2ec35ff997105ba5696bac7025346f9dbf09dc515d38a  LTR_retriever-2.7.tar.gz' | sha256sum -c \
+RUN echo '4e10c4df03cd84a841f90a0ac636a04863279b85ad6cfc155905e7ac29d46a8b  LTR_retriever-2.8.tar.gz' | sha256sum -c \
     && cd /opt \
-    && tar -x -f src/LTR_retriever-2.7.tar.gz \
-    && mv LTR_retriever-2.7 LTR_retriever \
+    && tar -x -f src/LTR_retriever-2.8.tar.gz \
+    && mv LTR_retriever-2.8 LTR_retriever \
     && cd LTR_retriever \
     && sh -c 'rm bin/trf*' \
     && ln -s /opt/trf bin/trf409.legacylinux64 \

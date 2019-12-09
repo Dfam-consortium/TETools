@@ -136,7 +136,7 @@ $ singularity build dfam-tetools.sif dfam-tetools.def
 
 ## Included software
 
-The following software is included in the Dfam TE Tools container (version `1.0`):
+The following software is included in the Dfam TE Tools container (version `<unreleased>`):
 
 | | | |
 | -------------- | -------- | --- |
@@ -150,7 +150,7 @@ The following software is included in the Dfam TE Tools container (version `1.0`
 | RECON          | 1.08     | <http://www.repeatmasker.org/RepeatModeler/RECON-1.08.tar.gz>
 | cd-hit         | 4.8.1    | <https://github.com/weizhongli/cdhit>
 | genometools    | 1.5.10   | <https://github.com/genometools/genometools>
-| LTR\_retriever | 2.7      | <https://github.com/oushujun/LTR_retriever/>
+| LTR\_retriever | 2.8      | <https://github.com/oushujun/LTR_retriever/>
 | MAFFT          | 7.429    |  <https://mafft.cbrc.jp/alignment/software/>
 | NINJA          | 0.97-cluster\_only | <https://github.com/TravisWheelerLab/NINJA>
 

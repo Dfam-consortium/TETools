@@ -48,9 +48,9 @@ RUN echo '26172dba3040d1ae5c73ff0ac6c3be8c8e60cc49fc7379e434cdf9cb1e7415de  cd-h
     && make && mkdir /opt/cd-hit && PREFIX=/opt/cd-hit make install
 
 # Compile genometools (for ltrharvest)
-RUN echo 'a6aa7f158a3cef90fea8d0fe24bfad0c3ee96b17b3ba0c1f6462582593af679e  gt-1.5.10.tar.gz' | sha256sum -c \
-    && tar -x -f gt-1.5.10.tar.gz \
-    && cd genometools-1.5.10 \
+RUN echo 'd59dbf5bc6151b40ec6e53abfb3fa9f50136a054448759278a8c862e288cd3c9  gt-1.6.0.tar.gz' | sha256sum -c \
+    && tar -x -f gt-1.6.0.tar.gz \
+    && cd genometools-1.6.0 \
     && make -j4 cairo=no && make cairo=no prefix=/opt/genometools install \
     && make cleanup
 

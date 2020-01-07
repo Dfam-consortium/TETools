@@ -20,9 +20,9 @@ RUN echo '1e7b3711f8d4d99d70fb212c58a144ac08ab578132494af7f03613223f90d7fc  rmbl
     && rm src/rmblast-2.9.0+-p2-x64-linux.tar.gz
 
 # Compile HMMER
-RUN echo 'a56129f9d786ec25265774519fc4e736bbc16e4076946dcbd7f2c16efc8e2b9c  hmmer-3.2.1.tar.gz' | sha256sum -c \
-    && tar -x -f hmmer-3.2.1.tar.gz \
-    && cd hmmer-3.2.1 \
+RUN echo '0186bf40af67032666014971ed8ddc3cf2834bebc2be5b3bc0304a93e763736c  hmmer-3.3.tar.gz' | sha256sum -c \
+    && tar -x -f hmmer-3.3.tar.gz \
+    && cd hmmer-3.3 \
     && ./configure --prefix=/opt/hmmer && make && make install \
     && make clean
 
@@ -101,7 +101,7 @@ RUN echo '7370014c2a7bfd704f0e487cea82a42f05de100c40ea7cbb50f54e20226fe449  Repe
     && cd RepeatMasker \
     && ln -s /bin/true /opt/trf \
     && perl configure \
-        -hmmer_dir=/opt/hmmer \
+        -hmmer_dir=/opt/hmmer/bin \
         -rmblast_dir=/opt/rmblast/bin \
         -libdir=/opt/RepeatMasker/Libraries \
         -trf_prgm=/opt/trf \

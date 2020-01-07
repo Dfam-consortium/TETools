@@ -145,7 +145,7 @@ The following software is included in the Dfam TE Tools container (version `<unr
 | coseg          | 0.2.2    | <http://www.repeatmasker.org/COSEGDownload.html>
 | | | |
 | RMBlast        | 2.9.0-p2 | <http://www.repeatmasker.org/RMBlast.html>
-| HMMER          | 3.2.1    | <http://hmmer.org/>
+| HMMER          | 3.3      | <http://hmmer.org/>
 | RepeatScout    | 1.0.6    | <http://www.repeatmasker.org/RepeatScout-1.0.6.tar.gz>
 | RECON          | 1.08     | <http://www.repeatmasker.org/RepeatModeler/RECON-1.08.tar.gz>
 | cd-hit         | 4.8.1    | <https://github.com/weizhongli/cdhit>

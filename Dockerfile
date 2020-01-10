@@ -39,6 +39,7 @@ RUN echo '699765fa49d18dbfac9f7a82ecd054464b468cb7521abe9c2bd8caccf08ee7d8  RECO
     && mv RECON-1.08 ../RECON \
     && cd ../RECON \
     && make -C src && make -C src install \
+    && cp 00README bin/ \
     && sed -i 's#^\$path =.*#$path = "/opt/RECON/bin";#' scripts/recon.pl
 
 # Compile cd-hit

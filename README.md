@@ -140,7 +140,7 @@ The following software is included in the Dfam TE Tools container (version `<unr
 
 | | | |
 | -------------- | -------- | --- |
-| RepeatModeler  | 2.0      | <http://www.repeatmasker.org/RepeatModeler/>
+| RepeatModeler  | 2.0.1    | <http://www.repeatmasker.org/RepeatModeler/>
 | RepeatMasker   | 4.1.0    | <http://www.repeatmasker.org/RMDownload.html>
 | coseg          | 0.2.2    | <http://www.repeatmasker.org/COSEGDownload.html>
 | | | |

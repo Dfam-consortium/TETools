@@ -110,14 +110,14 @@ RUN echo '7370014c2a7bfd704f0e487cea82a42f05de100c40ea7cbb50f54e20226fe449  Repe
     && cd .. && rm src/RepeatMasker-4.1.0.tar.gz
 
 # Configure RepeatModeler
-RUN echo '0fda277b7ee81f7fc9c989078a1220cf263d7b76c92b260d36eecc9db7179f5b  RepeatModeler-2.0.tar.gz' | sha256sum -c \
+RUN echo '628e7e1556865a86ed9d6a644c0c5487454c99fbcac21b68eae302fae7abb7ac  RepeatModeler-2.0.1.tar.gz' | sha256sum -c \
     && cd /opt \
-    && tar -x -f src/RepeatModeler-2.0.tar.gz \
-    && mv RepeatModeler-2.0 RepeatModeler \
+    && tar -x -f src/RepeatModeler-2.0.1.tar.gz \
+    && mv RepeatModeler-2.0.1 RepeatModeler \
     && cd RepeatModeler \
     && perl configure \
          -cdhit_dir=/opt/cd-hit -genometools_dir=/opt/genometools/bin \
-         -ltr_retriever_dir=/opt/LTR_retriever -mafft_dir=/opt/mafft \
+         -ltr_retriever_dir=/opt/LTR_retriever -mafft_dir=/opt/mafft/bin \
          -ninja_dir=/opt/NINJA/NINJA -recon_dir=/opt/RECON/bin \
          -repeatmasker_dir=/opt/RepeatMasker \
          -rmblast_dir=/opt/rmblast/bin -rscout_dir=/opt/RepeatScout \

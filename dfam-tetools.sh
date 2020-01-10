@@ -149,6 +149,7 @@ if [ "$use_docker" = 1 ]; then
 		--mount type=bind,source="$trf_path",target=/opt/trf,ro \
 		--user "$(id -u):$(id -g)" \
 		--workdir "/work" \
+		--env "HOME=/work" \
 		"$container" \
 		"$@"
 elif [ "$use_singularity" = 1 ]; then

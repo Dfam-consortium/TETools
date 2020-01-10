@@ -140,7 +140,7 @@ RUN apt-get -y update \
         vim nano \
         libpam-systemd-
 
-RUN echo "PS1='(dfam-tetools) \w\$ '" >> /etc/bash.bashrc
 COPY --from=builder /opt /opt
+RUN echo "PS1='(dfam-tetools \$(pwd))\\\$ '" >> /etc/bash.bashrc
 ENV LANG=C
 ENV PATH=/opt/RepeatMasker:/opt/RepeatMasker/util:/opt/RepeatModeler:/opt/RepeatModeler/util:/opt/coseg:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin

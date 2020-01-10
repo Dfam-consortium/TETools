@@ -13,11 +13,11 @@ COPY src/* /opt/src/
 WORKDIR /opt/src
 
 # Extract RMBlast
-RUN echo '1e7b3711f8d4d99d70fb212c58a144ac08ab578132494af7f03613223f90d7fc  rmblast-2.9.0+-p2-x64-linux.tar.gz' | sha256sum -c \
+RUN echo 'e592d0601a98b9764dd55f2aa4815beb1987beb7222f0e171d4f4cd70a0d4a03  rmblast-2.10.0+-x64-linux.tar.gz' | sha256sum -c \
     && cd /opt \
     && mkdir rmblast \
-    && tar --strip-components=1 -x -f src/rmblast-2.9.0+-p2-x64-linux.tar.gz -C rmblast \
-    && rm src/rmblast-2.9.0+-p2-x64-linux.tar.gz
+    && tar --strip-components=1 -x -f src/rmblast-2.10.0+-x64-linux.tar.gz -C rmblast \
+    && rm src/rmblast-2.10.0+-x64-linux.tar.gz
 
 # Compile HMMER
 RUN echo '0186bf40af67032666014971ed8ddc3cf2834bebc2be5b3bc0304a93e763736c  hmmer-3.3.tar.gz' | sha256sum -c \

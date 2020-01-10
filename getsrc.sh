@@ -23,7 +23,7 @@ download() {
 
 mkdir -p src
 
-download http://www.repeatmasker.org/rmblast-2.9.0+-p2-x64-linux.tar.gz
+download http://www.repeatmasker.org/rmblast-2.10.0+-x64-linux.tar.gz
 download http://eddylab.org/software/hmmer/hmmer-3.3.tar.gz
 download http://www.repeatmasker.org/RepeatScout-1.0.6.tar.gz
 download http://www.repeatmasker.org/RepeatModeler/RECON-1.08.tar.gz

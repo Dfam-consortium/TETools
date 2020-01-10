@@ -151,7 +151,7 @@ The following software is included in the Dfam TE Tools container (version `<unr
 | cd-hit         | 4.8.1    | <https://github.com/weizhongli/cdhit>
 | genometools    | 1.6.0    | <https://github.com/genometools/genometools>
 | LTR\_retriever | 2.8      | <https://github.com/oushujun/LTR_retriever/>
-| MAFFT          | 7.429    |  <https://mafft.cbrc.jp/alignment/software/>
+| MAFFT          | 7.453    |  <https://mafft.cbrc.jp/alignment/software/>
 | NINJA          | 0.97-cluster\_only | <https://github.com/TravisWheelerLab/NINJA>
 
 ## License

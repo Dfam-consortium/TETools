@@ -136,7 +136,7 @@ $ singularity build dfam-tetools.sif dfam-tetools.def
 
 ## Included software
 
-The following software is included in the Dfam TE Tools container (version `<unreleased>`):
+The following software is included in the Dfam TE Tools container (version `1.1`):
 
 | | | |
 | -------------- | -------- | --- |

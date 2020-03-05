@@ -121,7 +121,7 @@ if [ -z "$trf_path" ]; then
 		# TRF could not be found
 		die "Error: Could not find a suitable TRF program.
 Ensure trf is available in your PATH and is executable,
-or specify the path with --trf-path=/path/to/trf"
+or specify the path with --trf_prgm=/path/to/trf"
 	fi
 fi
 
@@ -131,13 +131,19 @@ trf_path="$(readlink -f "$trf_path")"
 if ! [ -e "$trf_path" ]; then
 	die "Error: The specified TRF program at \"$trf_path\" does not exist.
 Ensure trf is available in your PATH and is executable,
-or specify the path with --trf-path=/path/to/trf"
+or specify the path with --trf_prgm=/path/to/trf"
+fi
+
+# ... and is a file ...
+if ! [ -f "$trf_path" ]; then
+	die "Error: The TRF program specified should be a file, but was \"$trf_path\".
+Specify the path with --trf_prgm=/path/to/trf"
 fi
 
 # ... and is executable
 if ! [ -x "$trf_path" ]; then
-	die "Error: TRF was found at \"$trf_path\" but it is not executable.
-Ensure it is executable and try again, or specify the correct path with --trf=path=/path/to/trf"
+	die "Error: The TRF program at \"$trf_path\" is not executable.
+Ensure it is executable and try again, or specify the correct path with --trf_prgm=/path/to/trf"
 fi
 
 

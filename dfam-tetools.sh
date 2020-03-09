@@ -47,17 +47,9 @@ programs are available, singularity is preferred."
 ## Parse command-line arguments ##
 
 container="dfam/tetools:1"
-trf_path=
+trf_prgm=
 use_docker=0
 use_singularity=0
-
-# getopt does some checking and reformats the options string
-if ! optstr=$(getopt --name "${0##*/}" --shell sh --options -h --longoptions help,container:,trf_prgm:,docker,singularity -- "$@"); then
-	usage >&2
-	exit 1
-fi
-
-eval set -- "$optstr"
 
 while [ $# -ge 1 ]; do
 	opt="$1"
@@ -65,6 +57,10 @@ while [ $# -ge 1 ]; do
 	case "$opt" in
 	--)
 		break
+		;;
+	--*=*)
+		# Normalize "--x=y" format to "--x" "y" and try again
+		set -- "${opt%%=*}" "${opt#*=}" "$@"
 		;;
 	--container)
 		container="$1"
@@ -75,7 +71,7 @@ while [ $# -ge 1 ]; do
 		exit 0
 		;;
 	--trf_prgm)
-		trf_path="$1"
+		trf_prgm="$1"
 		shift
 		;;
 	--docker)
@@ -85,7 +81,7 @@ while [ $# -ge 1 ]; do
 		use_singularity=1
 		;;
 	*)
-		die "Unexpected argument: $opt
+		die "Unrecognized argument: $opt
 A command to run in the container must be preceded by a --"
 		;;
 	esac
@@ -116,8 +112,8 @@ if [ "$use_singularity" = 1 ] && ! [ -e "$container" ]; then
 fi
 
 # Try several different names for the TRF command if not specified
-if [ -z "$trf_path" ]; then
-	if ! trf_path="$(find_command trf trf.legacylinux64 trf.linux64 trf409.legacylinux64 trf409.linux64)"; then
+if [ -z "$trf_prgm" ]; then
+	if ! trf_prgm="$(find_command trf trf.legacylinux64 trf.linux64 trf409.legacylinux64 trf409.linux64)"; then
 		# TRF could not be found
 		die "Error: Could not find a suitable TRF program.
 Ensure trf is available in your PATH and is executable,
@@ -125,11 +121,14 @@ or specify the path with --trf_prgm=/path/to/trf"
 	fi
 fi
 
-trf_path="$(readlink -f "$trf_path")"
+# trf_path="$(readlink -f "$trf_prgm")"
+
+# readlink -f is not available on macOS; this works though
+trf_path=$(cd "$(dirname "$trf_prgm")" 2>/dev/null; pwd)/$(basename "$trf_prgm")
 
 # Ensure TRF exists...
 if ! [ -e "$trf_path" ]; then
-	die "Error: The specified TRF program at \"$trf_path\" does not exist.
+	die "Error: The specified TRF program at \"$trf_prgm\" does not exist.
 Ensure trf is available in your PATH and is executable,
 or specify the path with --trf_prgm=/path/to/trf"
 fi

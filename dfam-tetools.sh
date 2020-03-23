@@ -150,6 +150,7 @@ fi
 
 if [ "$use_docker" = 1 ]; then
 	docker run -it --rm \
+		--init \
 		--mount type=bind,source="$workdir",target=/work \
 		--mount type=bind,source="$trf_path",target=/opt/trf,ro \
 		--user "$(id -u):$(id -g)" \

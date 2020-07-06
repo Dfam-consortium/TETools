@@ -64,13 +64,11 @@ RUN echo 'd59dbf5bc6151b40ec6e53abfb3fa9f50136a054448759278a8c862e288cd3c9  gt-1
     && make cleanup
 
 # Configure LTR_retriever
-RUN echo '4e10c4df03cd84a841f90a0ac636a04863279b85ad6cfc155905e7ac29d46a8b  LTR_retriever-2.8.tar.gz' | sha256sum -c \
+RUN echo '29ca6f699c57b5e964aa0ee6c7d3e1e4cd5362dadd789e5f0e8c82fe0bb29369  LTR_retriever-2.8.7.tar.gz' | sha256sum -c \
     && cd /opt \
-    && tar -x -f src/LTR_retriever-2.8.tar.gz \
-    && mv LTR_retriever-2.8 LTR_retriever \
+    && tar -x -f src/LTR_retriever-2.8.7.tar.gz \
+    && mv LTR_retriever-2.8.7 LTR_retriever \
     && cd LTR_retriever \
-    && sh -c 'rm bin/trf*' \
-    && ln -s /opt/trf bin/trf409.legacylinux64 \
     && sed -i \
         -e 's#BLAST+=#BLAST+=/opt/rmblast/bin#' \
         -e 's#RepeatMasker=#RepeatMasker=/opt/RepeatMasker#' \
@@ -149,4 +147,4 @@ RUN apt-get -y update \
 COPY --from=builder /opt /opt
 RUN echo "PS1='(dfam-tetools \$(pwd))\\\$ '" >> /etc/bash.bashrc
 ENV LANG=C
-ENV PATH=/opt/RepeatMasker:/opt/RepeatMasker/util:/opt/RepeatModeler:/opt/RepeatModeler/util:/opt/coseg:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ENV PATH=/opt/RepeatMasker:/opt/RepeatMasker/util:/opt/RepeatModeler:/opt/RepeatModeler/util:/opt/coseg:/opt:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin

@@ -77,9 +77,9 @@ RUN echo '29ca6f699c57b5e964aa0ee6c7d3e1e4cd5362dadd789e5f0e8c82fe0bb29369  LTR_
         paths
 
 # Compile MAFFT
-RUN echo '4c05dfc4d173c9a139fcaa9373fbc2c8d6a59f410a7971f7acc6268be628b1f9  mafft-7.453-without-extensions-src.tgz' | sha256sum -c \
-    && tar -x -f mafft-7.453-without-extensions-src.tgz \
-    && cd mafft-7.453-without-extensions/core \
+RUN echo '60f8ec7bab80e00dbb24be65b8000312ffc98ff10eb72fc2219869d1dd382964  mafft-7.471-without-extensions-src.tgz' | sha256sum -c \
+    && tar -x -f mafft-7.471-without-extensions-src.tgz \
+    && cd mafft-7.471-without-extensions/core \
     && sed -i 's#^PREFIX =.*#PREFIX = /opt/mafft#' Makefile \
     && make clean && make && make install \
     && make clean

@@ -29,12 +29,10 @@ die() {
 usage() {
 printf "%s\n" "Usage: dfam-tetools.sh [-h|--help]
 	[--container=/path/to/dfam-tetools.sif | --container=dfam/tetools:tag]
-	[--trf_prgm=/path/to/trf]
 	[--docker | --singularity]
 	[-- command [arg1 [arg2 [...]]]]
 
 --container	Choose a specific container to use (a .sif file or a docker image ID or tag)
---trf_prgm	The path to the TRF binary
 --docker	Run the container via docker
 --singularity	Run the container via singularity
 command		A command to run in the container instead of an interactive shell
@@ -47,7 +45,6 @@ programs are available, singularity is preferred."
 ## Parse command-line arguments ##
 
 container="dfam/tetools:1"
-trf_prgm=
 use_docker=0
 use_singularity=0
 
@@ -71,7 +68,8 @@ while [ $# -ge 1 ]; do
 		exit 0
 		;;
 	--trf_prgm)
-		trf_prgm="$1"
+		echo "Notice: Since Dfam TE Tools 1.2, TRF is included in the container.
+The --trf_prgm parameter was ignored." >&2
 		shift
 		;;
 	--docker)
@@ -111,48 +109,12 @@ if [ "$use_singularity" = 1 ] && ! [ -e "$container" ]; then
 	container="docker://$container"
 fi
 
-# Try several different names for the TRF command if not specified
-if [ -z "$trf_prgm" ]; then
-	if ! trf_prgm="$(find_command trf trf.legacylinux64 trf.linux64 trf409.legacylinux64 trf409.linux64)"; then
-		# TRF could not be found
-		die "Error: Could not find a suitable TRF program.
-Ensure trf is available in your PATH and is executable,
-or specify the path with --trf_prgm=/path/to/trf"
-	fi
-fi
-
-# trf_path="$(readlink -f "$trf_prgm")"
-
-# readlink -f is not available on macOS; this works though
-trf_path=$(cd "$(dirname "$trf_prgm")" 2>/dev/null; pwd)/$(basename "$trf_prgm")
-
-# Ensure TRF exists...
-if ! [ -e "$trf_path" ]; then
-	die "Error: The specified TRF program at \"$trf_prgm\" does not exist.
-Ensure trf is available in your PATH and is executable,
-or specify the path with --trf_prgm=/path/to/trf"
-fi
-
-# ... and is a file ...
-if ! [ -f "$trf_path" ]; then
-	die "Error: The TRF program specified should be a file, but was \"$trf_path\".
-Specify the path with --trf_prgm=/path/to/trf"
-fi
-
-# ... and is executable
-if ! [ -x "$trf_path" ]; then
-	die "Error: The TRF program at \"$trf_path\" is not executable.
-Ensure it is executable and try again, or specify the correct path with --trf_prgm=/path/to/trf"
-fi
-
-
 ## Run the container ##
 
 if [ "$use_docker" = 1 ]; then
 	docker run -it --rm \
 		--init \
 		--mount type=bind,source="$workdir",target=/work \
-		--mount type=bind,source="$trf_path",target=/opt/trf,ro \
 		--user "$(id -u):$(id -g)" \
 		--workdir "/work" \
 		--env "HOME=/work" \
@@ -164,7 +126,6 @@ elif [ "$use_singularity" = 1 ]; then
 	fi
 	export LANG=C
 	singularity exec \
-		-B "$trf_path":/opt/trf:ro \
 		"$container" \
 		"$@"
 fi

@@ -4,8 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
+### Added
+- TRF: `4.09.1`
+### Changed
+- dfam-tetools.sh: `--trf_prgm` is no longer necessary and is ignored
 ### Fixed
-- dfam-tetools.sh: Update and fix error messages related to finding TRF (fixes #3)
 - dfam-tetools.sh: Fix compatibility with macOS (fixes #3)
 - dfam-tetools.sh: Use the '--init' option when running docker to avoid a zombie apocalypse (fixes #2)
 

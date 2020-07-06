@@ -28,19 +28,14 @@ You should install RepeatMasker and/or RepeatModeler manually if:
 ### Requirements
 
 * A 64-bit Linux operating system. Other platforms (e.g. macOS) might work with
-  extra effort but are not tested. You will need to have a Linux version of TRF
-  for use inside the container, regardless of the host operating system.
+  extra effort but are not tested.
 * `singularity` or `docker` installed with permissions to run containers. For
   `docker`, this usually means being in the `docker` group or running the
   container as the `root` user.
-* TRF. The license terms of TRF do not allow us to redistribute it inside the
-  container directly, but you can obtain it free of charge from
-  <https://tandem.bu.edu/trf/trf.download.html>. The container has been tested
-  with TRF 4.09 ("64-bit Linux command line").
 
 ### Using the Wrapper Script
 
-We provide a wrapper script, `dfam-tetools.sh`, which does most of the work automatically:
+We provide a wrapper script, `dfam-tetools.sh`, which does most of the work automatically.
 
 The wrapper script does the following:
 * Runs the container from Docker Hub. This can be overridden with the
@@ -48,9 +43,6 @@ The wrapper script does the following:
   if you have a specific `.sif` file for singularity.
 * Uses `singularity` if it is available, `docker` otherwise. You can change this
   default with `--docker` or `--singularity` flags.
-* Makes the host system TRF (found in PATH) available to the container. If
-  necessary, a particular TRF binary can be specified with
-  `--trf_prgm=/path/to/trf`
 * Runs the container as the current user, in the current working directory
 
 ```
@@ -72,14 +64,10 @@ $ runcoseg.pl -d -m 50 -c ALU.cons -s ALU.seqs -i ALU.ins
 
 ### Running the Container Manually
 
-The container can also be run manually, bypassing the wrapper script. The only
-special concern is that TRF must be bind-mounted into the container at
-`/opt/trf`:
+The container can also be run manually, bypassing the wrapper script:
 
-* `docker run -it --rm --mount type=bind,source=/usr/local/bin/trf,target=/opt/trf,ro dfam/tetools:latest`
-* `singularity run -B /usr/local/bin/trf:/opt/trf:ro docker://dfam/tetools:latest`
-
-Replace `/usr/local/bin/trf` with the path to `trf` on your system.
+* `docker run -it --rm dfam/tetools:latest`
+* `singularity run docker://dfam/tetools:latest`
 
 When running the container manually, you will also need to set the UID/GID,
 directories to mount, and so on according to your specific situation. By
@@ -136,7 +124,7 @@ $ singularity build dfam-tetools.sif dfam-tetools.def
 
 ## Included software
 
-The following software is included in the Dfam TE Tools container (version `1.1`):
+The following software is included in the Dfam TE Tools container (version `<unreleased>`):
 
 | | | |
 | -------------- | -------- | --- |
@@ -146,6 +134,7 @@ The following software is included in the Dfam TE Tools container (version `1.1`
 | | | |
 | RMBlast        | 2.10.0   | <http://www.repeatmasker.org/RMBlast.html>
 | HMMER          | 3.3      | <http://hmmer.org/>
+| TRF            | 4.09.1   | <https://github.com/Benson-Genomics-Lab/TRF> |
 | RepeatScout    | 1.0.6    | <http://www.repeatmasker.org/RepeatScout-1.0.6.tar.gz>
 | RECON          | 1.08     | <http://www.repeatmasker.org/RepeatModeler/RECON-1.08.tar.gz>
 | cd-hit         | 4.8.1    | <https://github.com/weizhongli/cdhit>

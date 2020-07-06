@@ -26,6 +26,14 @@ RUN echo '0186bf40af67032666014971ed8ddc3cf2834bebc2be5b3bc0304a93e763736c  hmme
     && ./configure --prefix=/opt/hmmer && make && make install \
     && make clean
 
+# Compile TRF
+RUN echo '516015b625473350c3d1c9b83cac86baea620c8418498ab64c0a67029c3fb28a  trf-4.09.1.tar.gz' | sha256sum -c \
+    && tar -x -f trf-4.09.1.tar.gz \
+    && cd TRF-4.09.1 \
+    && mkdir build && cd build \
+    && ../configure && make && cp ./src/trf /opt/trf \
+    && cd .. && rm -r build
+
 # Compile RepeatScout
 RUN echo '31a44cf648d78356aec585ee5d3baf936d01eaba43aed382d9ac2d764e55b716  RepeatScout-1.0.6.tar.gz' | sha256sum -c \
     && tar -x -f RepeatScout-1.0.6.tar.gz \
@@ -100,14 +108,12 @@ RUN echo '7370014c2a7bfd704f0e487cea82a42f05de100c40ea7cbb50f54e20226fe449  Repe
     && tar -x -f src/RepeatMasker-4.1.0.tar.gz \
     && chmod a+w RepeatMasker/Libraries \
     && cd RepeatMasker \
-    && ln -s /bin/true /opt/trf \
     && perl configure \
         -hmmer_dir=/opt/hmmer/bin \
         -rmblast_dir=/opt/rmblast/bin \
         -libdir=/opt/RepeatMasker/Libraries \
         -trf_prgm=/opt/trf \
         -default_search_engine=rmblast \
-    && rm /opt/trf \
     && cd .. && rm src/RepeatMasker-4.1.0.tar.gz
 
 # Configure RepeatModeler

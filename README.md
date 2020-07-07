@@ -93,15 +93,16 @@ $ cp -r /opt/RepeatMasker/Libraries/ ./
 # Extract RepBase (the .tar.gz file unpacks files into Libraries/)
 $ tar -x -f /work/path/to/RepBaseRepeatMaskerEdition-#######.tar.gz
 
-# Run RepeatMasker with the -libdir parameter. RepeatMasker will detect
-# the addition of RepBase RepeatMasker Edition and rebuild its cached
+# Run RepeatMasker with the LIBDIR environment variable set. RepeatMasker will
+# detect the addition of RepBase RepeatMasker Edition and rebuild its cached
 # libraries automatically as needed.
-$ RepeatMasker -libdir ./Libraries genome.fa
+$ export LIBDIR=/path/to/Libraries
+$ RepeatMasker genome.fa
 ```
 
-In future runs, you only need the `-libdir` parameter to specify the path to
-this same Libraries directory. Each time you update RepeatMasker, remember to
-also re-create your custom Libraries directory if you use one.
+In future runs you can reuse the same `Libraries/` directory by setting `LIBDIR`
+again. Each time you update RepeatMasker, including a new version of the TETools
+container, you should re-create your custom Libraries directory if you use one.
 
 ## Building the Container
 

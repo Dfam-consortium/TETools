@@ -64,10 +64,10 @@ RUN echo 'd59dbf5bc6151b40ec6e53abfb3fa9f50136a054448759278a8c862e288cd3c9  gt-1
     && make cleanup
 
 # Configure LTR_retriever
-RUN echo '29ca6f699c57b5e964aa0ee6c7d3e1e4cd5362dadd789e5f0e8c82fe0bb29369  LTR_retriever-2.8.7.tar.gz' | sha256sum -c \
+RUN echo 'e2d94f6179c33990a77fa9fdcefb842c8481b4c30833c9c12cbbe54cb3fdda73  LTR_retriever-2.9.0.tar.gz' | sha256sum -c \
     && cd /opt \
-    && tar -x -f src/LTR_retriever-2.8.7.tar.gz \
-    && mv LTR_retriever-2.8.7 LTR_retriever \
+    && tar -x -f src/LTR_retriever-2.9.0.tar.gz \
+    && mv LTR_retriever-2.9.0 LTR_retriever \
     && cd LTR_retriever \
     && sed -i \
         -e 's#BLAST+=#BLAST+=/opt/rmblast/bin#' \

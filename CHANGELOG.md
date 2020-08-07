@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - TRF: `4.09.1`
 ### Updated
-- LTR_retriever: `2.8` -> `2.8.7`
+- LTR_retriever: `2.8` -> `2.9.0`
 - MAFFT: `7.453` -> `7.471`
 ### Changed
 - dfam-tetools.sh: `--trf_prgm` is no longer necessary and is ignored

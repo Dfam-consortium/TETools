@@ -44,7 +44,7 @@ programs are available, singularity is preferred."
 
 ## Parse command-line arguments ##
 
-container="dfam/tetools:1"
+container="dfam/tetools:1.2"
 use_docker=0
 use_singularity=0
 

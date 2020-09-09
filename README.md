@@ -93,9 +93,11 @@ $ cp -r /opt/RepeatMasker/Libraries/ ./
 # Extract RepBase (the .tar.gz file unpacks files into Libraries/)
 $ tar -x -f /work/path/to/RepBaseRepeatMaskerEdition-#######.tar.gz
 
-# Run RepeatMasker with the LIBDIR environment variable set. RepeatMasker will
-# detect the addition of RepBase RepeatMasker Edition and rebuild its cached
-# libraries automatically as needed.
+# Run the 'addRepBase.pl' script (part of the RepeatMasker package) to merge the databases,
+# specifying the custom Libraries directory.
+$ addRepBase.pl -libdir Libraries/
+
+# Run RepeatMasker with the LIBDIR environment variable set
 $ export LIBDIR=/path/to/Libraries
 $ RepeatMasker genome.fa
 ```
@@ -130,7 +132,7 @@ The following software is included in the Dfam TE Tools container (version `<unr
 | | | |
 | -------------- | -------- | --- |
 | RepeatModeler  | 2.0.1    | <http://www.repeatmasker.org/RepeatModeler/>
-| RepeatMasker   | 4.1.0    | <http://www.repeatmasker.org/RMDownload.html>
+| RepeatMasker   | 4.1.1    | <http://www.repeatmasker.org/RMDownload.html>
 | coseg          | 0.2.2    | <http://www.repeatmasker.org/COSEGDownload.html>
 | | | |
 | RMBlast        | 2.10.0   | <http://www.repeatmasker.org/RMBlast.html>

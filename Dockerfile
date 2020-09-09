@@ -5,6 +5,7 @@ FROM debian:9 AS builder
 RUN apt-get -y update && apt-get -y install \
     curl gcc g++ make zlib1g-dev libgomp1 \
     perl \
+    python3-h5py \
     libfile-which-perl \
     libtext-soundex-perl \
     libjson-perl liburi-perl libwww-perl
@@ -101,9 +102,9 @@ RUN echo 'e666874cc602d6a03c45eb2f19dc53b2d95150c6aae83fea0842b7db1d157682  cose
     && make
 
 # Configure RepeatMasker
-RUN echo '7370014c2a7bfd704f0e487cea82a42f05de100c40ea7cbb50f54e20226fe449  RepeatMasker-4.1.0.tar.gz' | sha256sum -c \
+RUN echo 'a2934996efd0d4baf1247970b94a5dbf5979453f11de31a288b6c099a826240c  RepeatMasker-4.1.1.tar.gz' | sha256sum -c \
     && cd /opt \
-    && tar -x -f src/RepeatMasker-4.1.0.tar.gz \
+    && tar -x -f src/RepeatMasker-4.1.1.tar.gz \
     && chmod a+w RepeatMasker/Libraries \
     && cd RepeatMasker \
     && perl configure \
@@ -112,7 +113,7 @@ RUN echo '7370014c2a7bfd704f0e487cea82a42f05de100c40ea7cbb50f54e20226fe449  Repe
         -libdir=/opt/RepeatMasker/Libraries \
         -trf_prgm=/opt/trf \
         -default_search_engine=rmblast \
-    && cd .. && rm src/RepeatMasker-4.1.0.tar.gz
+    && cd .. && rm src/RepeatMasker-4.1.1.tar.gz
 
 # Configure RepeatModeler
 RUN echo '628e7e1556865a86ed9d6a644c0c5487454c99fbcac21b68eae302fae7abb7ac  RepeatModeler-2.0.1.tar.gz' | sha256sum -c \
@@ -136,6 +137,7 @@ RUN apt-get -y update \
         aptitude \
         libgomp1 \
         perl \
+        python3-h5py \
         libfile-which-perl \
         libtext-soundex-perl \
         libjson-perl liburi-perl libwww-perl \
@@ -147,4 +149,5 @@ RUN apt-get -y update \
 COPY --from=builder /opt /opt
 RUN echo "PS1='(dfam-tetools \$(pwd))\\\$ '" >> /etc/bash.bashrc
 ENV LANG=C
+ENV PYTHONIOENCODING=utf8
 ENV PATH=/opt/RepeatMasker:/opt/RepeatMasker/util:/opt/RepeatModeler:/opt/RepeatModeler/util:/opt/coseg:/opt:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin

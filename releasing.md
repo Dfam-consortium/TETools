@@ -15,4 +15,4 @@
 5. Commit and tag in git as x.y
 6. Tag the container (in docker) as `:x`, `:x.y`, and `:latest`
 7. Push these tags to docker hub
-8. Push the commit tag to github
+8. Push the commit and tag to github

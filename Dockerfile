@@ -144,6 +144,7 @@ RUN apt-get -y update \
     && aptitude install -y ~pstandard ~prequired \
         curl wget \
         vim nano \
+        strace \
         libpam-systemd-
 
 COPY --from=builder /opt /opt

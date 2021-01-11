@@ -21,9 +21,9 @@ RUN echo 'e592d0601a98b9764dd55f2aa4815beb1987beb7222f0e171d4f4cd70a0d4a03  rmbl
     && rm src/rmblast-2.10.0+-x64-linux.tar.gz
 
 # Compile HMMER
-RUN echo '0186bf40af67032666014971ed8ddc3cf2834bebc2be5b3bc0304a93e763736c  hmmer-3.3.tar.gz' | sha256sum -c \
-    && tar -x -f hmmer-3.3.tar.gz \
-    && cd hmmer-3.3 \
+RUN echo '92fee9b5efe37a5276352d3502775e7c46e9f7a0ee45a331eacb2a0cac713c69  hmmer-3.3.2.tar.gz' | sha256sum -c \
+    && tar -x -f hmmer-3.3.2.tar.gz \
+    && cd hmmer-3.3.2 \
     && ./configure --prefix=/opt/hmmer && make && make install \
     && make clean
 

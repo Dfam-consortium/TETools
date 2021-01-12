@@ -36,3 +36,7 @@ download https://github.com/TravisWheelerLab/NINJA/archive/0.97-cluster_only.tar
 download http://www.repeatmasker.org/coseg-0.2.2.tar.gz
 download http://www.repeatmasker.org/RepeatMasker-4.1.1.tar.gz
 download https://github.com/Dfam-consortium/RepeatModeler/archive/2.0.1.tar.gz RepeatModeler-2.0.1.tar.gz
+
+for tool in faToTwoBit twoBitInfo twoBitToFa; do
+  download http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/"$tool"
+done

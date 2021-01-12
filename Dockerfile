@@ -93,6 +93,15 @@ RUN echo 'b9b948c698efc3838e63817f732ead35c08debe1c0ae36b5c74df7d26ca4c4b6  NINJ
     && cd NINJA/NINJA \
     && make clean && make all
 
+# Move UCSC tools
+RUN    echo '6a5b9703cf234907014544008b4c3aa4f9be05eb05755ff472c87de513e09df7  faToTwoBit' | sha256sum -c \
+    && echo 'e534c55d806a7c72f2d1fa595040a9b02f11f2ba499d3d4a89eb8e8162a935be  twoBitInfo' | sha256sum -c \
+    && echo 'b5e9c0b52113953ce3dc170d8525ff867e973dc9af0f62a48c4f5ff3e2c8eefb  twoBitToFa' | sha256sum -c \
+    && mkdir /opt/ucsc_tools \
+    && mv faToTwoBit twoBitInfo twoBitToFa  /opt/ucsc_tools \
+    && chmod +x /opt/ucsc_tools/*
+COPY LICENSE.ucsc /opt/ucsc_tools/LICENSE
+
 # Compile and configure coseg
 RUN echo 'e666874cc602d6a03c45eb2f19dc53b2d95150c6aae83fea0842b7db1d157682  coseg-0.2.2.tar.gz' | sha256sum -c \
     && cd /opt \
@@ -151,4 +160,4 @@ COPY --from=builder /opt /opt
 RUN echo "PS1='(dfam-tetools \$(pwd))\\\$ '" >> /etc/bash.bashrc
 ENV LANG=C
 ENV PYTHONIOENCODING=utf8
-ENV PATH=/opt/RepeatMasker:/opt/RepeatMasker/util:/opt/RepeatModeler:/opt/RepeatModeler/util:/opt/coseg:/opt:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ENV PATH=/opt/RepeatMasker:/opt/RepeatMasker/util:/opt/RepeatModeler:/opt/RepeatModeler/util:/opt/coseg:/opt/ucsc_tools:/opt:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin

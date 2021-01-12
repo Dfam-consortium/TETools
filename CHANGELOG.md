@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## Unreleased
 ### Added
 - Installed `strace` in the container
+- Added several of the UCSC utilities (`faToTwoBit`, `twoBitInfo`, `twoBitToFa`).
+  These tools are used by some of the scripts in `RepeatModeler/util`.
 ### Updated
 - HMMER: `3.3` -> `3.3.2`
 

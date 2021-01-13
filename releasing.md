@@ -2,7 +2,9 @@
 
 1. Update included software
   * `getsrc.sh`: downloaded file names
-  * `Dockerfile`: paths, checksum
+  * `sha256sums.txt`: checksums
+      * To update, run: `(cd src; sha256sum *) >sha256sums.txt`
+  * `Dockerfile`: paths
   * `README.md`: "Included software" table
   * `CHANGELOG.md`: "Updated" section
 2. Update version number in:

@@ -11,40 +11,38 @@ RUN apt-get -y update && apt-get -y install \
     libjson-perl liburi-perl libwww-perl
 
 COPY src/* /opt/src/
+COPY sha256sums.txt /opt/src/
 WORKDIR /opt/src
 
+RUN sha256sum -c sha256sums.txt
+
 # Extract RMBlast
-RUN echo 'e592d0601a98b9764dd55f2aa4815beb1987beb7222f0e171d4f4cd70a0d4a03  rmblast-2.10.0+-x64-linux.tar.gz' | sha256sum -c \
-    && cd /opt \
+RUN cd /opt \
     && mkdir rmblast \
     && tar --strip-components=1 -x -f src/rmblast-2.10.0+-x64-linux.tar.gz -C rmblast \
     && rm src/rmblast-2.10.0+-x64-linux.tar.gz
 
 # Compile HMMER
-RUN echo '92fee9b5efe37a5276352d3502775e7c46e9f7a0ee45a331eacb2a0cac713c69  hmmer-3.3.2.tar.gz' | sha256sum -c \
-    && tar -x -f hmmer-3.3.2.tar.gz \
+RUN tar -x -f hmmer-3.3.2.tar.gz \
     && cd hmmer-3.3.2 \
     && ./configure --prefix=/opt/hmmer && make && make install \
     && make clean
 
 # Compile TRF
-RUN echo '516015b625473350c3d1c9b83cac86baea620c8418498ab64c0a67029c3fb28a  trf-4.09.1.tar.gz' | sha256sum -c \
-    && tar -x -f trf-4.09.1.tar.gz \
+RUN tar -x -f trf-4.09.1.tar.gz \
     && cd TRF-4.09.1 \
     && mkdir build && cd build \
     && ../configure && make && cp ./src/trf /opt/trf \
     && cd .. && rm -r build
 
 # Compile RepeatScout
-RUN echo '31a44cf648d78356aec585ee5d3baf936d01eaba43aed382d9ac2d764e55b716  RepeatScout-1.0.6.tar.gz' | sha256sum -c \
-    && tar -x -f RepeatScout-1.0.6.tar.gz \
+RUN tar -x -f RepeatScout-1.0.6.tar.gz \
     && cd RepeatScout-1.0.6 \
     && sed -i 's#^INSTDIR =.*#INSTDIR = /opt/RepeatScout#' Makefile \
     && make && make install
 
 # Compile and configure RECON
-RUN echo '699765fa49d18dbfac9f7a82ecd054464b468cb7521abe9c2bd8caccf08ee7d8  RECON-1.08.tar.gz' | sha256sum -c \
-    && tar -x -f RECON-1.08.tar.gz \
+RUN tar -x -f RECON-1.08.tar.gz \
     && mv RECON-1.08 ../RECON \
     && cd ../RECON \
     && make -C src && make -C src install \
@@ -52,21 +50,18 @@ RUN echo '699765fa49d18dbfac9f7a82ecd054464b468cb7521abe9c2bd8caccf08ee7d8  RECO
     && sed -i 's#^\$path =.*#$path = "/opt/RECON/bin";#' scripts/recon.pl
 
 # Compile cd-hit
-RUN echo '26172dba3040d1ae5c73ff0ac6c3be8c8e60cc49fc7379e434cdf9cb1e7415de  cd-hit-v4.8.1-2019-0228.tar.gz' | sha256sum -c \
-    && tar -x -f cd-hit-v4.8.1-2019-0228.tar.gz \
+RUN tar -x -f cd-hit-v4.8.1-2019-0228.tar.gz \
     && cd cd-hit-v4.8.1-2019-0228 \
     && make && mkdir /opt/cd-hit && PREFIX=/opt/cd-hit make install
 
 # Compile genometools (for ltrharvest)
-RUN echo 'd59dbf5bc6151b40ec6e53abfb3fa9f50136a054448759278a8c862e288cd3c9  gt-1.6.0.tar.gz' | sha256sum -c \
-    && tar -x -f gt-1.6.0.tar.gz \
+RUN tar -x -f gt-1.6.0.tar.gz \
     && cd genometools-1.6.0 \
     && make -j4 cairo=no && make cairo=no prefix=/opt/genometools install \
     && make cleanup
 
 # Configure LTR_retriever
-RUN echo 'e2d94f6179c33990a77fa9fdcefb842c8481b4c30833c9c12cbbe54cb3fdda73  LTR_retriever-2.9.0.tar.gz' | sha256sum -c \
-    && cd /opt \
+RUN cd /opt \
     && tar -x -f src/LTR_retriever-2.9.0.tar.gz \
     && mv LTR_retriever-2.9.0 LTR_retriever \
     && cd LTR_retriever \
@@ -78,41 +73,34 @@ RUN echo 'e2d94f6179c33990a77fa9fdcefb842c8481b4c30833c9c12cbbe54cb3fdda73  LTR_
         paths
 
 # Compile MAFFT
-RUN echo '60f8ec7bab80e00dbb24be65b8000312ffc98ff10eb72fc2219869d1dd382964  mafft-7.471-without-extensions-src.tgz' | sha256sum -c \
-    && tar -x -f mafft-7.471-without-extensions-src.tgz \
+RUN tar -x -f mafft-7.471-without-extensions-src.tgz \
     && cd mafft-7.471-without-extensions/core \
     && sed -i 's#^PREFIX =.*#PREFIX = /opt/mafft#' Makefile \
     && make clean && make && make install \
     && make clean
 
 # Compile NINJA
-RUN echo 'b9b948c698efc3838e63817f732ead35c08debe1c0ae36b5c74df7d26ca4c4b6  NINJA-cluster.tar.gz' | sha256sum -c \
-    && cd /opt \
+RUN cd /opt \
     && mkdir NINJA \
     && tar --strip-components=1 -x -f src/NINJA-cluster.tar.gz -C NINJA \
     && cd NINJA/NINJA \
     && make clean && make all
 
 # Move UCSC tools
-RUN    echo '6a5b9703cf234907014544008b4c3aa4f9be05eb05755ff472c87de513e09df7  faToTwoBit' | sha256sum -c \
-    && echo 'e534c55d806a7c72f2d1fa595040a9b02f11f2ba499d3d4a89eb8e8162a935be  twoBitInfo' | sha256sum -c \
-    && echo 'b5e9c0b52113953ce3dc170d8525ff867e973dc9af0f62a48c4f5ff3e2c8eefb  twoBitToFa' | sha256sum -c \
-    && mkdir /opt/ucsc_tools \
+RUN mkdir /opt/ucsc_tools \
     && mv faToTwoBit twoBitInfo twoBitToFa  /opt/ucsc_tools \
     && chmod +x /opt/ucsc_tools/*
 COPY LICENSE.ucsc /opt/ucsc_tools/LICENSE
 
 # Compile and configure coseg
-RUN echo 'e666874cc602d6a03c45eb2f19dc53b2d95150c6aae83fea0842b7db1d157682  coseg-0.2.2.tar.gz' | sha256sum -c \
-    && cd /opt \
+RUN cd /opt \
     && tar -x -f src/coseg-0.2.2.tar.gz \
     && cd coseg \
     && sed -i 's#use lib "/usr/local/RepeatMasker";#use lib "/opt/RepeatMasker";#' preprocessAlignments.pl \
     && make
 
 # Configure RepeatMasker
-RUN echo 'a2934996efd0d4baf1247970b94a5dbf5979453f11de31a288b6c099a826240c  RepeatMasker-4.1.1.tar.gz' | sha256sum -c \
-    && cd /opt \
+RUN cd /opt \
     && tar -x -f src/RepeatMasker-4.1.1.tar.gz \
     && chmod a+w RepeatMasker/Libraries \
     && cd RepeatMasker \
@@ -125,8 +113,7 @@ RUN echo 'a2934996efd0d4baf1247970b94a5dbf5979453f11de31a288b6c099a826240c  Repe
     && cd .. && rm src/RepeatMasker-4.1.1.tar.gz
 
 # Configure RepeatModeler
-RUN echo '628e7e1556865a86ed9d6a644c0c5487454c99fbcac21b68eae302fae7abb7ac  RepeatModeler-2.0.1.tar.gz' | sha256sum -c \
-    && cd /opt \
+RUN cd /opt \
     && tar -x -f src/RepeatModeler-2.0.1.tar.gz \
     && mv RepeatModeler-2.0.1 RepeatModeler \
     && cd RepeatModeler \

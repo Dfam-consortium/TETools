@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   These tools are used by some of the scripts in `RepeatModeler/util`.
 ### Updated
 - HMMER: `3.3` -> `3.3.2`
+### Fixed
+- coseg: set a working path to a perl interpreter in `.pl` scripts
 
 ## 1.2 - 2020-09-09
 ### Added

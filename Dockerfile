@@ -96,6 +96,7 @@ COPY LICENSE.ucsc /opt/ucsc_tools/LICENSE
 RUN cd /opt \
     && tar -x -f src/coseg-0.2.2.tar.gz \
     && cd coseg \
+    && sed -i 's@#!.*perl@#!/usr/bin/perl@' preprocessAlignments.pl runcoseg.pl refineConsSeqs.pl \
     && sed -i 's#use lib "/usr/local/RepeatMasker";#use lib "/opt/RepeatMasker";#' preprocessAlignments.pl \
     && make
 

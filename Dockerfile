@@ -115,8 +115,7 @@ RUN cd /opt \
 
 # Configure RepeatModeler
 RUN cd /opt \
-    && tar -x -f src/RepeatModeler-2.0.1.tar.gz \
-    && mv RepeatModeler-2.0.1 RepeatModeler \
+    && tar -x -f src/RepeatModeler-2.0.2-beta-4.tar.gz \
     && cd RepeatModeler \
     && perl configure \
          -cdhit_dir=/opt/cd-hit -genometools_dir=/opt/genometools/bin \
@@ -124,7 +123,8 @@ RUN cd /opt \
          -ninja_dir=/opt/NINJA/NINJA -recon_dir=/opt/RECON/bin \
          -repeatmasker_dir=/opt/RepeatMasker \
          -rmblast_dir=/opt/rmblast/bin -rscout_dir=/opt/RepeatScout \
-         -trf_prgm=/opt/trf
+         -trf_prgm=/opt/trf \
+         -ucsctools_dir=/opt/ucsc_tools
 
 FROM debian:9
 

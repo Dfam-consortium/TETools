@@ -138,6 +138,7 @@ RUN apt-get -y update \
         libfile-which-perl \
         libtext-soundex-perl \
         libjson-perl liburi-perl libwww-perl \
+        libdevel-size-perl \
     && aptitude install -y ~pstandard ~prequired \
         curl wget \
         vim nano \

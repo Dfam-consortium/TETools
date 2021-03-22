@@ -7,7 +7,7 @@ e2d94f6179c33990a77fa9fdcefb842c8481b4c30833c9c12cbbe54cb3fdda73  LTR_retriever-
 60f8ec7bab80e00dbb24be65b8000312ffc98ff10eb72fc2219869d1dd382964  mafft-7.471-without-extensions-src.tgz
 b9b948c698efc3838e63817f732ead35c08debe1c0ae36b5c74df7d26ca4c4b6  NINJA-cluster.tar.gz
 699765fa49d18dbfac9f7a82ecd054464b468cb7521abe9c2bd8caccf08ee7d8  RECON-1.08.tar.gz
-a2934996efd0d4baf1247970b94a5dbf5979453f11de31a288b6c099a826240c  RepeatMasker-4.1.1.tar.gz
+bb85d30a85e3462eabf7b350b4be0331c322152a6c88faab45817346d70cfdb2  RepeatMasker-4.1.2.tar.gz
 628e7e1556865a86ed9d6a644c0c5487454c99fbcac21b68eae302fae7abb7ac  RepeatModeler-2.0.1.tar.gz
 31a44cf648d78356aec585ee5d3baf936d01eaba43aed382d9ac2d764e55b716  RepeatScout-1.0.6.tar.gz
 e592d0601a98b9764dd55f2aa4815beb1987beb7222f0e171d4f4cd70a0d4a03  rmblast-2.10.0+-x64-linux.tar.gz

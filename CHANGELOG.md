@@ -11,6 +11,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Updated
 - HMMER: `3.3` -> `3.3.2`
 - RepeatMasker: `4.1.1` -> `4.1.2`
+- RMBlast: `2.10.0` -> `2.11.0`
+    * Upstream BLAST+ 2.11.0 introduced opt-out reporting of usage statistics,
+      which is also included in RMBlast 2.11.0. See
+      <http://www.repeatmasker.org/RMBlast.html> for more details. To opt out
+      of this, set the environment variable `BLAST_USAGE_REPORT=false` (e.g.
+      with the `-e` option to `docker run`, or the `--env` option for
+      `singularity exec`)
 ### Fixed
 - coseg: set a working path to a perl interpreter in `.pl` scripts
 

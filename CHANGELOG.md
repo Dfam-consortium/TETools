@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## Unreleased
 ### Added
 - Installed `ps` in the container, for compatibility with Nextflow tracing/metrics
+### Updated
+- RepeatModeler: `2.0.1` -> `2.0.2`
 
 ## 1.3.1 - 2021-04-01
 ### Updated

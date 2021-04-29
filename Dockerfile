@@ -115,8 +115,8 @@ RUN cd /opt \
 
 # Configure RepeatModeler
 RUN cd /opt \
-    && tar -x -f src/RepeatModeler-2.0.1.tar.gz \
-    && mv RepeatModeler-2.0.1 RepeatModeler \
+    && tar -x -f src/RepeatModeler-2.0.2a.tar.gz \
+    && mv RepeatModeler-2.0.2a RepeatModeler \
     && cd RepeatModeler \
     && perl configure \
          -cdhit_dir=/opt/cd-hit -genometools_dir=/opt/genometools/bin \
@@ -124,7 +124,8 @@ RUN cd /opt \
          -ninja_dir=/opt/NINJA/NINJA -recon_dir=/opt/RECON/bin \
          -repeatmasker_dir=/opt/RepeatMasker \
          -rmblast_dir=/opt/rmblast/bin -rscout_dir=/opt/RepeatScout \
-         -trf_prgm=/opt/trf
+         -trf_prgm=/opt/trf \
+         -ucsctools_dir=/opt/ucsc_tools
 
 FROM debian:9
 
@@ -138,6 +139,7 @@ RUN apt-get -y update \
         libfile-which-perl \
         libtext-soundex-perl \
         libjson-perl liburi-perl libwww-perl \
+        libdevel-size-perl \
     && aptitude install -y ~pstandard ~prequired \
         curl wget \
         vim nano \

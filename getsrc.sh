@@ -37,6 +37,10 @@ download http://www.repeatmasker.org/coseg-0.2.2.tar.gz
 download http://www.repeatmasker.org/RepeatMasker/RepeatMasker-4.1.2-p1.tar.gz
 download https://github.com/Dfam-consortium/RepeatModeler/archive/2.0.2a.tar.gz RepeatModeler-2.0.2a.tar.gz
 
+# TODO: /exe/ only includes binaries of the "latest" version at the time of download.
+# The version listed in README.md is obtained by running 'strings src/faToTwoBit | grep kent'
+# On whatever was downloaded.
+# Consider building these tools from source instead.
 for tool in faToTwoBit twoBitInfo twoBitToFa; do
   download http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/"$tool"
 done

@@ -145,7 +145,7 @@ The following software is included in the Dfam TE Tools container (version `<unr
 | LTR\_retriever | 2.9.0    | <https://github.com/oushujun/LTR_retriever/>
 | MAFFT          | 7.471    |  <https://mafft.cbrc.jp/alignment/software/>
 | NINJA          | 0.97-cluster\_only | <https://github.com/TravisWheelerLab/NINJA>
-| UCSC utilities\* | v407 | <http://hgdownload.soe.ucsc.edu/admin/exe/>>
+| UCSC utilities\* | v413 | <http://hgdownload.soe.ucsc.edu/admin/exe/>>
 
 \* Selected tools only: `faToTwoBit`, `twoBitInfo`, `twoBitToFa`
 

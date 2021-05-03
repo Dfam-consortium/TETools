@@ -16,5 +16,7 @@
 4. Test the container
 5. Commit and tag in git as x.y
 6. Tag the container (in docker) as `:x`, `:x.y`, and `:latest`
+  * For each version, run: `docker image tag dfam/tetools:dev dfam/tetools:version`
 7. Push these tags to docker hub
+  * For each tag made before: `docker push dfam/tetools:version`
 8. Push the commit and tag to github

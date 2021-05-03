@@ -1,5 +1,10 @@
 # Dfam TE Tools container including RepeatMasker, RepeatModeler, coseg
 
+# Why debian:9? glibc, and probably other libraries, occasionally take
+# advantage of new kernel syscalls. Docker containers normally run with the
+# host machine's kernel. Debian 9 has an old enough glibc to not have many
+# features that would only work on newer machines, and the other packages are
+# new enough to compile all of these dependencies.
 FROM debian:9 AS builder
 
 RUN apt-get -y update && apt-get -y install \

@@ -27,8 +27,9 @@ You should install RepeatMasker and/or RepeatModeler manually if:
 
 ### Requirements
 
-* A 64-bit Linux operating system. Other platforms (e.g. macOS) might work with
-  extra effort but are not tested.
+* A 64-bit Linux operating system, or appropriate virtualization software.
+  Docker for Mac is known to work, including the wrapper script, but we do not
+  regularly test this platform ourselves.
 * `singularity` or `docker` installed with permissions to run containers. For
   `docker`, this usually means being in the `docker` group or running the
   container as the `root` user.

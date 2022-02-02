@@ -8,19 +8,6 @@ set -eu
 
 workdir="$(pwd)"
 
-# find_command name1 name2 name3 ...
-# Prints the full name (as reported by command -v) for the first
-# name that can be found. Exits with status 1 if no command matches
-find_command() (
-	for attempt; do
-		if found="$(command -v "$attempt" 2>/dev/null)"; then
-			printf "%s\n" "$found"
-			return 0
-		fi
-	done
-	return 1
-)
-
 die() {
 	printf "%s\n" "$*" >&2
 	exit 1

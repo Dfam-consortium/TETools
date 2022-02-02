@@ -39,28 +39,29 @@ You should install RepeatMasker and/or RepeatModeler manually if:
 We provide a wrapper script, `dfam-tetools.sh`, which does most of the work automatically.
 
 The wrapper script does the following:
-* Runs the container from Docker Hub. This can be overridden with the
-  `--container` flag if you want to use a different version than the default or
-  if you have a specific `.sif` file for singularity.
-* Uses `singularity` if it is available, `docker` otherwise. You can change this
-  default with `--docker` or `--singularity` flags.
-* Runs the container as the current user, in the current working directory
+* Runs the container from Docker Hub. You can also use the `--container` option to
+  specify a different version of the container or an `.sif` file for singularity.
+* Uses `singularity` if it is available, or `docker`. You can choose between them
+  with the `--docker` or `--singularity` options.
+* Runs the container as the current user, with the current working directory accessible
+  from within the container. Depending on the environment and the software used, this
+  directory appears inside the container at its original location and/or at the path `/work`.
 
 ```
-$ curl -sSLO https://github.com/Dfam-consortium/TETools/raw/master/dfam-tetools.sh
-$ chmod +x dfam-tetools.sh
-$ ./dfam-tetools.sh
+curl -sSLO https://github.com/Dfam-consortium/TETools/raw/master/dfam-tetools.sh
+chmod +x dfam-tetools.sh
+./dfam-tetools.sh
 ```
 
 Inside the container, the included tools are now available:
 
 ```
-$ BuildDatabase -name genome1 genome1.fa
-$ RepeatModeler -database genome1 [-LTRStruct] [-pa 8]
+BuildDatabase -name genome1 genome1.fa
+RepeatModeler -database genome1 [-LTRStruct] [-pa 8]
 
-$ RepeatMasker genome1.fa [-lib library.fa] [-pa 8]
+RepeatMasker genome1.fa [-lib library.fa] [-pa 8]
 
-$ runcoseg.pl -d -m 50 -c ALU.cons -s ALU.seqs -i ALU.ins
+runcoseg.pl -d -m 50 -c ALU.cons -s ALU.seqs -i ALU.ins
 ```
 
 ### Running the Container Manually
@@ -71,59 +72,91 @@ The container can also be run manually, bypassing the wrapper script:
 * `singularity run docker://dfam/tetools:latest`
 
 When running the container manually, you will also need to set the UID/GID,
-directories to mount, and so on according to your specific situation. By
-default singularity mounts the current directory and your `HOME` directory;
-docker does neither.
+directories to mount, and so on according to your needs. By default singularity
+mounts the current directory and your `HOME` directory; docker does neither.
 
-### Using RepBase RepeatMasker Edition
+You can also use `singularity pull` to download the container to a file:
 
-If you wish to use RepBase RepeatMasker Edition with the container, you will
-need to perform some additional setup. These commands should be read as a
-container-specific extension to the instructions at
-<http://www.repeatmasker.org/RMDownload.html>.  These commands assume that
-RepBaseRepeatMaskerEdition-######.tar.gz is accessible inside the container.
-
-Once inside the container:
 ```
-# Navigate to an appropriate directory that is persistent outside the container
-$ cd /work
-
-# Make a copy of RepeatMasker's Libraries directory here
-$ cp -r /opt/RepeatMasker/Libraries/ ./
-
-# Extract RepBase (the .tar.gz file unpacks files into Libraries/)
-$ tar -x -f /work/path/to/RepBaseRepeatMaskerEdition-#######.tar.gz
-
-# Run the 'addRepBase.pl' script (part of the RepeatMasker package) to merge the databases,
-# specifying the custom Libraries directory.
-$ addRepBase.pl -libdir Libraries/
-
-# Run RepeatMasker with the LIBDIR environment variable set
-$ export LIBDIR=/path/to/Libraries
-$ RepeatMasker genome.fa
+singularity pull dfam-tetools-latest.sif docker://dfam/tetools:latest
+singularity run dfam-tetools-latest.sif
 ```
 
-In future runs you can reuse the same `Libraries/` directory by setting `LIBDIR`
-again. Each time you update RepeatMasker, including a new version of the TETools
-container, you should re-create your custom Libraries directory if you use one.
+### Customizing the RepeatMasker libraries
+<!-- previous header name / link: --><a id="using-repbase-repeatmasker-edition"></a>
+
+By default, RepeatMasker only includes the curated entries from the <a
+href="https://www.dfam.org/">Dfam</a> database. Additional setup is needed to
+install the full Dfam database including uncurated entries and/or to install
+RepBase RepeatMasker Edition for use with the container. This is a different
+process from using a custom library of FASTA or HMM models, which can be
+accomplished by using the `-lib` option to `RepeatMasker`.
+
+Modifying the container can become a quite complex task, depending on which
+software and versions are being used and how the system is configured. Instead
+of modifying the container or software directly, these instructions will create
+a separate directory for the new libraries.
+
+You will need access to the following files and directories from inside the
+container.
+
+* A location on the host system ("outside" the container) to store the new `Libraries/`
+* (for Dfam) the full Dfam database including uncurated entries, `Dfam.h5`
+* (for RepBase) RepBase RepeatMasker Edition, `RepBaseRepeatMaskerEdition-######.tar.gz`
+
+```sh
+# If needed, first change to the directory which corresponds to the host system.
+# (dfam-tetools.sh does this automatically)
+cd /work
+
+# Make a copy of the original RepeatMasker Libraries/ directory here
+cp -r /opt/RepeatMasker/Libraries/ ./
+
+## If desired, update Dfam:
+## ========================
+# Overwrite the new Dfam.h5 file into Libraries/
+cp Dfam.h5 Libraries/
+# Update the file RepeatMaskerLib.h5 to the new Dfam.h5
+ln -sf Dfam.h5 Libraries/RepeatMaskerLib.h5
+
+## If desired, add RepBase RepeatMasker Edition:
+## =============================================
+# Extract RepBase RepeatMasker Edition (the .tar.gz file should unpack into Libraries/)
+tar -x -f /work/path/to/RepBaseRepeatMaskerEdition-#######.tar.gz
+# Run the addRepBase.pl script (part of the RepeatMasker package) to merge the databases,
+# specifying the new Libraries directory.
+addRepBase.pl -libdir Libraries/
+```
+
+You can now specify this `Libraries/` directory by setting the `LIBDIR`
+environment variable, for example with the `export LIBDIR=` command or `-e
+LIBDIR=` depending on you are running the container. When you use a new version
+of the TETools container (particularly a new RepeatMasker), you should
+re-create the `Libraries` directory for the new version.
+
+```sh
+# Set the LIBDIR environment variable before running RepeatMasker
+export LIBDIR=/path/to/Libraries
+RepeatMasker genome.fa
+```
 
 ## Building the Container
 
-You'll need:
+You will need:
 
 * `curl`
 * `docker`, with permissions to build containers
 * `singularity` (optional) - if building a singularity container
 
-```
+```sh
 # Download dependencies
-$ ./getsrc.sh
+./getsrc.sh
 
 # Build a docker container
-$ docker build -t org/name:tag .
+docker build -t org/name:tag .
 
 # (optional) build a singularity container
-$ singularity build dfam-tetools.sif dfam-tetools.def
+singularity build dfam-tetools.sif dfam-tetools.def
 ```
 
 ## Included software

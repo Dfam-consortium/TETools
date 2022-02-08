@@ -13,7 +13,8 @@ RUN apt-get -y update && apt-get -y install \
     python3-h5py \
     libfile-which-perl \
     libtext-soundex-perl \
-    libjson-perl liburi-perl libwww-perl
+    libjson-perl liburi-perl libwww-perl \
+    libdevel-size-perl
 
 COPY src/* /opt/src/
 COPY sha256sums.txt /opt/src/
@@ -120,8 +121,8 @@ RUN cd /opt \
 
 # Configure RepeatModeler
 RUN cd /opt \
-    && tar -x -f src/RepeatModeler-2.0.2a.tar.gz \
-    && mv RepeatModeler-2.0.2a RepeatModeler \
+    && tar -x -f src/RepeatModeler-2.0.3.tar.gz \
+    && mv RepeatModeler-2.0.3 RepeatModeler \
     && cd RepeatModeler \
     && perl configure \
          -cdhit_dir=/opt/cd-hit -genometools_dir=/opt/genometools/bin \
@@ -129,7 +130,7 @@ RUN cd /opt \
          -ninja_dir=/opt/NINJA/NINJA -recon_dir=/opt/RECON/bin \
          -repeatmasker_dir=/opt/RepeatMasker \
          -rmblast_dir=/opt/rmblast/bin -rscout_dir=/opt/RepeatScout \
-         -trf_prgm=/opt/trf \
+         -trf_dir=/opt \
          -ucsctools_dir=/opt/ucsc_tools
 
 FROM debian:9

@@ -161,11 +161,11 @@ singularity build dfam-tetools.sif dfam-tetools.def
 
 ## Included software
 
-The following software is included in the Dfam TE Tools container (version `1.4`):
+The following software is included in the Dfam TE Tools container (version `<unreleased>`):
 
 | | | |
 | -------------- | -------- | --- |
-| RepeatModeler  | 2.0.2    | <http://www.repeatmasker.org/RepeatModeler/>
+| RepeatModeler  | 2.0.3    | <http://www.repeatmasker.org/RepeatModeler/>
 | RepeatMasker   | 4.1.2-p1 | <http://www.repeatmasker.org/RMDownload.html>
 | coseg          | 0.2.2    | <http://www.repeatmasker.org/COSEGDownload.html>
 | | | |

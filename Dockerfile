@@ -108,7 +108,7 @@ RUN cd /opt \
 
 # Configure RepeatMasker
 RUN cd /opt \
-    && tar -x -f src/RepeatMasker-4.1.3.tar.gz \
+    && tar -x -f src/RepeatMasker-4.1.3-p1.tar.gz \
     && chmod a+w RepeatMasker/Libraries \
     && cd RepeatMasker \
     && perl configure \
@@ -117,7 +117,7 @@ RUN cd /opt \
         -libdir=/opt/RepeatMasker/Libraries \
         -trf_prgm=/opt/trf \
         -default_search_engine=rmblast \
-    && cd .. && rm src/RepeatMasker-4.1.3.tar.gz
+    && cd .. && rm src/RepeatMasker-4.1.3-p1.tar.gz
 
 # Configure RepeatModeler
 RUN cd /opt \

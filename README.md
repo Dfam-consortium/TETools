@@ -165,11 +165,11 @@ The following software is included in the Dfam TE Tools container (version `1.5`
 
 | | | |
 | -------------- | -------- | --- |
-| RepeatModeler  | 2.0.3    | <http://www.repeatmasker.org/RepeatModeler/>
-| RepeatMasker   | 4.1.3-p1 | <http://www.repeatmasker.org/RMDownload.html>
+| RepeatModeler  | 2.0.4    | <http://www.repeatmasker.org/RepeatModeler/>
+| RepeatMasker   | 4.1.4    | <http://www.repeatmasker.org/RMDownload.html>
 | coseg          | 0.2.2    | <http://www.repeatmasker.org/COSEGDownload.html>
 | | | |
-| RMBlast        | 2.11.0   | <http://www.repeatmasker.org/RMBlast.html>
+| RMBlast        | 2.13.0   | <http://www.repeatmasker.org/RMBlast.html>
 | HMMER          | 3.3.2    | <http://hmmer.org/>
 | TRF            | 4.09.1   | <https://github.com/Benson-Genomics-Lab/TRF> |
 | RepeatScout    | 1.0.6    | <http://www.repeatmasker.org/RepeatScout-1.0.6.tar.gz>

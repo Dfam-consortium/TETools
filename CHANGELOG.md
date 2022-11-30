@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## 1.7 - 2022-11/29
+### Updated
+- RepeatMasker:  `4.1.3-p1` -> `4.1.4`
+- RepeatModeler: `2.0.3` -> `2.0.4`
+- RMBlast:       `2.11.0` -> `2.13.0`
+
 ## 1.6 - 2022-10-18
 ### Updated
 - RepeatMasker: `4.1.2-p1` -> `4.1.3-p1`

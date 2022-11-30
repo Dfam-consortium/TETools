@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## 1.6 - 2022-10-18
+### Updated
+- RepeatMasker: `4.1.2-p1` -> `4.1.3-p1`
+
 ## 1.5 - 2022-02-09
 ### Updated
 - RepeatModeler: `2.0.2a` -> `2.0.3`

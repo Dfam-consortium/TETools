@@ -15,8 +15,16 @@
   * Use the tag `dfam/tetools:dev`
 4. Test the container
 5. Commit and tag in git as x.y
+  * run `git tag -a x.y`
 6. Tag the container (in docker) as `:x`, `:x.y`, and `:latest`
   * For each version, run: `docker image tag dfam/tetools:dev dfam/tetools:version`
 7. Push these tags to docker hub
   * For each tag made before: `docker push dfam/tetools:version`
 8. Push the commit and tag to github
+9. Generate a release on the github site
+  * On the releases tab select "Draft a new release"
+  * Choose the tag saved in step 5
+  * Use a release title like "Dfam TE Tools x.y"
+  * Use a description like "See the CHANGELOG for details."
+  * Set as the "latest release"
+  * Click on "Publish release" 

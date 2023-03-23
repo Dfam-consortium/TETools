@@ -34,7 +34,7 @@ download https://github.com/oushujun/LTR_retriever/archive/v2.9.0.tar.gz LTR_ret
 download https://mafft.cbrc.jp/alignment/software/mafft-7.471-without-extensions-src.tgz
 download https://github.com/TravisWheelerLab/NINJA/archive/0.97-cluster_only.tar.gz NINJA-cluster.tar.gz
 download https://www.repeatmasker.org/coseg-0.2.2.tar.gz
-download https://www.repeatmasker.org/RepeatMasker/RepeatMasker-4.1.4.tar.gz
+download https://www.repeatmasker.org/RepeatMasker/RepeatMasker-4.1.5.tar.gz
 download https://github.com/Dfam-consortium/RepeatModeler/archive/2.0.4.tar.gz RepeatModeler-2.0.4.tar.gz
 
 # TODO: /exe/ only includes binaries of the "latest" version at the time of download.

@@ -1,11 +1,6 @@
 # Dfam TE Tools container including RepeatMasker, RepeatModeler, coseg
 
-# Why debian:9? glibc, and probably other libraries, occasionally take
-# advantage of new kernel syscalls. Docker containers normally run with the
-# host machine's kernel. Debian 9 has an old enough glibc to not have many
-# features that would only work on newer machines, and the other packages are
-# new enough to compile all of these dependencies.
-FROM debian:9 AS builder
+FROM debian:10 AS builder
 
 RUN apt-get -y update && apt-get -y install \
     curl gcc g++ make zlib1g-dev libgomp1 \
@@ -14,8 +9,13 @@ RUN apt-get -y update && apt-get -y install \
     libfile-which-perl \
     libtext-soundex-perl \
     libjson-perl liburi-perl libwww-perl \
-    libdevel-size-perl
-
+    libdevel-size-perl \
+    aptitude && aptitude install -y ~pstandard ~prequired \
+    curl wget \
+    vim nano \
+    procps strace \
+    libpam-systemd-
+  
 COPY src/* /opt/src/
 COPY sha256sums.txt /opt/src/
 WORKDIR /opt/src
@@ -25,8 +25,8 @@ RUN sha256sum -c sha256sums.txt
 # Extract RMBlast
 RUN cd /opt \
     && mkdir rmblast \
-    && tar --strip-components=1 -x -f src/rmblast-2.13.0+-x64-linux.tar.gz -C rmblast \
-    && rm src/rmblast-2.13.0+-x64-linux.tar.gz
+    && tar --strip-components=1 -x -f src/rmblast-2.14.0+-x64-linux.tar.gz -C rmblast \
+    && rm src/rmblast-2.14.0+-x64-linux.tar.gz
 
 # Compile HMMER
 RUN tar -x -f hmmer-3.3.2.tar.gz \
@@ -133,27 +133,8 @@ RUN cd /opt \
          -trf_dir=/opt \
          -ucsctools_dir=/opt/ucsc_tools
 
-FROM debian:9
-
-# Install dependencies and some basic utilities
-RUN apt-get -y update \
-    && apt-get -y install \
-        aptitude \
-        libgomp1 \
-        perl \
-        python3-h5py \
-        libfile-which-perl \
-        libtext-soundex-perl \
-        libjson-perl liburi-perl libwww-perl \
-        libdevel-size-perl \
-    && aptitude install -y ~pstandard ~prequired \
-        curl wget \
-        vim nano \
-        procps strace \
-        libpam-systemd-
-
-COPY --from=builder /opt /opt
+# COPY --from=builder /opt /opt
 RUN echo "PS1='(dfam-tetools \$(pwd))\\\$ '" >> /etc/bash.bashrc
 ENV LANG=C
 ENV PYTHONIOENCODING=utf8
-ENV PATH=/opt/RepeatMasker:/opt/RepeatMasker/util:/opt/RepeatModeler:/opt/RepeatModeler/util:/opt/coseg:/opt/ucsc_tools:/opt:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ENV PATH=/opt/RepeatMasker:/opt/RepeatMasker/util:/opt/RepeatModeler:/opt/RepeatModeler/util:/opt/coseg:/opt/ucsc_tools:/opt:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/opt/rmblast/bin:/bin

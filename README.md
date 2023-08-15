@@ -57,9 +57,9 @@ Inside the container, the included tools are now available:
 
 ```
 BuildDatabase -name genome1 genome1.fa
-RepeatModeler -database genome1 [-LTRStruct] [-pa 8]
+RepeatModeler -database genome1 [-LTRStruct] [-threads 8]
 
-RepeatMasker genome1.fa [-lib library.fa] [-pa 8]
+RepeatMasker genome1.fa [-lib library.fa] [-threads 8]
 
 runcoseg.pl -d -m 50 -c ALU.cons -s ALU.seqs -i ALU.ins
 ```

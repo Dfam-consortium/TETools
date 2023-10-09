@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## 1.86 - 2023-10/09
+### Updated
+- RMBlast: `2.14.0` -> `2.14.1`
+- RepeatModeler: `2.0.4` -> `2.0.5`
+
 ## 1.85 - 2023-5/09
 ### Updated
 - RMBlast:  `2.13.0` -> `2.14.0`

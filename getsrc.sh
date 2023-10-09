@@ -23,7 +23,7 @@ download() {
 
 mkdir -p src
 
-download https://www.repeatmasker.org/rmblast/rmblast-2.14.0+-x64-linux.tar.gz
+download https://www.repeatmasker.org/rmblast/rmblast-2.14.1+-x64-linux.tar.gz
 download http://eddylab.org/software/hmmer/hmmer-3.3.2.tar.gz
 download https://github.com/Benson-Genomics-Lab/TRF/archive/v4.09.1.tar.gz trf-4.09.1.tar.gz
 download https://www.repeatmasker.org/RepeatScout-1.0.6.tar.gz
@@ -35,7 +35,7 @@ download https://mafft.cbrc.jp/alignment/software/mafft-7.471-without-extensions
 download https://github.com/TravisWheelerLab/NINJA/archive/0.97-cluster_only.tar.gz NINJA-cluster.tar.gz
 download https://www.repeatmasker.org/coseg-0.2.2.tar.gz
 download https://www.repeatmasker.org/RepeatMasker/RepeatMasker-4.1.5.tar.gz
-download https://github.com/Dfam-consortium/RepeatModeler/archive/2.0.4.tar.gz RepeatModeler-2.0.4.tar.gz
+download https://github.com/Dfam-consortium/RepeatModeler/archive/2.0.5.tar.gz RepeatModeler-2.0.5.tar.gz
 
 # TODO: /exe/ only includes binaries of the "latest" version at the time of download.
 # The version listed in README.md is obtained by running 'strings src/faToTwoBit | grep kent'

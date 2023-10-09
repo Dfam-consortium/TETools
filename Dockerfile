@@ -25,8 +25,8 @@ RUN sha256sum -c sha256sums.txt
 # Extract RMBlast
 RUN cd /opt \
     && mkdir rmblast \
-    && tar --strip-components=1 -x -f src/rmblast-2.14.0+-x64-linux.tar.gz -C rmblast \
-    && rm src/rmblast-2.14.0+-x64-linux.tar.gz
+    && tar --strip-components=1 -x -f src/rmblast-2.14.1+-x64-linux.tar.gz -C rmblast \
+    && rm src/rmblast-2.14.1+-x64-linux.tar.gz
 
 # Compile HMMER
 RUN tar -x -f hmmer-3.3.2.tar.gz \
@@ -121,8 +121,8 @@ RUN cd /opt \
 
 # Configure RepeatModeler
 RUN cd /opt \
-    && tar -x -f src/RepeatModeler-2.0.4.tar.gz \
-    && mv RepeatModeler-2.0.4 RepeatModeler \
+    && tar -x -f src/RepeatModeler-2.0.5.tar.gz \
+    && mv RepeatModeler-2.0.5 RepeatModeler \
     && cd RepeatModeler \
     && perl configure \
          -cdhit_dir=/opt/cd-hit -genometools_dir=/opt/genometools/bin \

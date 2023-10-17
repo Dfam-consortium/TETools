@@ -167,7 +167,7 @@ The following software is included in the Dfam TE Tools container (version `1.86
 | -------------- | -------- | --- |
 | RepeatModeler  | 2.0.5    | <http://www.repeatmasker.org/RepeatModeler/>
 | RepeatMasker   | 4.1.5    | <http://www.repeatmasker.org/RMDownload.html>
-| coseg          | 0.2.2    | <http://www.repeatmasker.org/COSEGDownload.html>
+| coseg          | 0.2.3    | <http://www.repeatmasker.org/COSEGDownload.html>
 | | | |
 | RMBlast        | 2.14.1   | <http://www.repeatmasker.org/RMBlast.html>
 | HMMER          | 3.3.2    | <http://hmmer.org/>
@@ -175,7 +175,7 @@ The following software is included in the Dfam TE Tools container (version `1.86
 | RepeatScout    | 1.0.6    | <http://www.repeatmasker.org/RepeatScout-1.0.6.tar.gz>
 | RECON          | 1.08     | <http://www.repeatmasker.org/RepeatModeler/RECON-1.08.tar.gz>
 | cd-hit         | 4.8.1    | <https://github.com/weizhongli/cdhit>
-| genometools    | 1.6.0    | <https://github.com/genometools/genometools>
+| genometools    | 1.6.4    | <https://github.com/genometools/genometools>
 | LTR\_retriever | 2.9.0    | <https://github.com/oushujun/LTR_retriever/>
 | MAFFT          | 7.471    |  <https://mafft.cbrc.jp/alignment/software/>
 | NINJA          | 0.97-cluster\_only | <https://github.com/TravisWheelerLab/NINJA>

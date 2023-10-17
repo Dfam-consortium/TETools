@@ -7,6 +7,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Updated
 - RMBlast: `2.14.0` -> `2.14.1`
 - RepeatModeler: `2.0.4` -> `2.0.5`
+- genometools: `1.6.0` -> `1.6.4`
+- coseg: `0.2.2` -> `0.2.3`
 
 ## 1.85 - 2023-5/09
 ### Updated

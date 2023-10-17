@@ -1,9 +1,13 @@
 # Dfam TE Tools container including RepeatMasker, RepeatModeler, coseg
 
-FROM debian:10 AS builder
+FROM debian:12 AS builder
 
 RUN apt-get -y update && apt-get -y install \
-    curl gcc g++ make zlib1g-dev libgomp1 \
+    gcc \
+    g++ \
+    make \
+    zlib1g-dev \
+    libgomp1 \
     perl \
     python3-h5py \
     libfile-which-perl \
@@ -18,6 +22,7 @@ RUN apt-get -y update && apt-get -y install \
   
 COPY src/* /opt/src/
 COPY sha256sums.txt /opt/src/
+COPY container_test.sh /opt/src/
 WORKDIR /opt/src
 
 RUN sha256sum -c sha256sums.txt
@@ -61,8 +66,8 @@ RUN tar -x -f cd-hit-v4.8.1-2019-0228.tar.gz \
     && make && mkdir /opt/cd-hit && PREFIX=/opt/cd-hit make install
 
 # Compile genometools (for ltrharvest)
-RUN tar -x -f gt-1.6.0.tar.gz \
-    && cd genometools-1.6.0 \
+RUN tar -x -f gt-1.6.4.tar.gz \
+    && cd genometools-1.6.4 \
     && make -j4 cairo=no && make cairo=no prefix=/opt/genometools install \
     && make cleanup
 
@@ -100,8 +105,11 @@ COPY LICENSE.ucsc /opt/ucsc_tools/LICENSE
 
 # Compile and configure coseg
 RUN cd /opt \
-    && tar -x -f src/coseg-0.2.2.tar.gz \
-    && cd coseg \
+    && mkdir coseg \
+    && tar -x -f src/coseg-0.2.3.tar.gz -C ./coseg \
+    && cd coseg/coseg-coseg-0.2.3 \
+    && mv * ../ \
+    && cd ../ \
     && sed -i 's@#!.*perl@#!/usr/bin/perl@' preprocessAlignments.pl runcoseg.pl refineConsSeqs.pl \
     && sed -i 's#use lib "/usr/local/RepeatMasker";#use lib "/opt/RepeatMasker";#' preprocessAlignments.pl \
     && make
@@ -138,3 +146,5 @@ RUN echo "PS1='(dfam-tetools \$(pwd))\\\$ '" >> /etc/bash.bashrc
 ENV LANG=C
 ENV PYTHONIOENCODING=utf8
 ENV PATH=/opt/RepeatMasker:/opt/RepeatMasker/util:/opt/RepeatModeler:/opt/RepeatModeler/util:/opt/coseg:/opt/ucsc_tools:/opt:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/opt/rmblast/bin:/bin
+
+RUN /opt/src/container_test.sh

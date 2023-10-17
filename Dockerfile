@@ -22,7 +22,6 @@ RUN apt-get -y update && apt-get -y install \
   
 COPY src/* /opt/src/
 COPY sha256sums.txt /opt/src/
-COPY container_test.sh /opt/src/
 WORKDIR /opt/src
 
 RUN sha256sum -c sha256sums.txt
@@ -147,4 +146,6 @@ ENV LANG=C
 ENV PYTHONIOENCODING=utf8
 ENV PATH=/opt/RepeatMasker:/opt/RepeatMasker/util:/opt/RepeatModeler:/opt/RepeatModeler/util:/opt/coseg:/opt/ucsc_tools:/opt:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/opt/rmblast/bin:/bin
 
+COPY container_test.sh /opt/src/
+RUN chmod 701 /opt/src/container_test.sh
 RUN /opt/src/container_test.sh

@@ -14,6 +14,7 @@
 3. Build the container (see `README.md`)
   * Use the tag `dfam/tetools:dev`
 4. Test the container
+  * `container_test.sh` will run as the last step of the build
 5. Commit and tag in git as x.y
   * run `git tag -a x.y`
 6. Tag the container (in docker) as `:x`, `:x.y`, and `:latest`

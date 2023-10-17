@@ -57,7 +57,7 @@ Inside the container, the included tools are now available:
 
 ```
 BuildDatabase -name genome1 genome1.fa
-RepeatModeler -database genome1 [-LTRStruct] [-pa 8]
+RepeatModeler -database genome1 [-LTRStruct] [-threads 8]
 
 RepeatMasker genome1.fa [-lib library.fa] [-pa 8]
 

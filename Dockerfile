@@ -115,8 +115,10 @@ RUN cd /opt \
 
 # Configure RepeatMasker
 RUN cd /opt \
-    && tar -x -f src/RepeatMasker-4.1.5.tar.gz \
+    && tar -x -f src/RepeatMasker-4.1.6.tar.gz \
     && chmod a+w RepeatMasker/Libraries \
+    && chmod a+w RepeatMasker/Libraries/famdb \
+    && gunzip src/dfamtest_full.0.h5.gz > /opt/RepeatMasker/Libraries/famdb/dfamtest_full.0.h5 \
     && cd RepeatMasker \
     && perl configure \
         -hmmer_dir=/opt/hmmer/bin \
@@ -124,28 +126,28 @@ RUN cd /opt \
         -libdir=/opt/RepeatMasker/Libraries \
         -trf_prgm=/opt/trf \
         -default_search_engine=rmblast \
-    && cd .. && rm src/RepeatMasker-4.1.5.tar.gz
+    && cd .. && rm src/RepeatMasker-4.1.6.tar.gz
 
 # Configure RepeatModeler
-RUN cd /opt \
-    && tar -x -f src/RepeatModeler-2.0.5.tar.gz \
-    && mv RepeatModeler-2.0.5 RepeatModeler \
-    && cd RepeatModeler \
-    && perl configure \
-         -cdhit_dir=/opt/cd-hit -genometools_dir=/opt/genometools/bin \
-         -ltr_retriever_dir=/opt/LTR_retriever -mafft_dir=/opt/mafft/bin \
-         -ninja_dir=/opt/NINJA/NINJA -recon_dir=/opt/RECON/bin \
-         -repeatmasker_dir=/opt/RepeatMasker \
-         -rmblast_dir=/opt/rmblast/bin -rscout_dir=/opt/RepeatScout \
-         -trf_dir=/opt \
-         -ucsctools_dir=/opt/ucsc_tools
+# RUN cd /opt \
+#     && tar -x -f src/RepeatModeler-2.0.5.tar.gz \
+#     && mv RepeatModeler-2.0.5 RepeatModeler \
+#     && cd RepeatModeler \
+#     && perl configure \
+#          -cdhit_dir=/opt/cd-hit -genometools_dir=/opt/genometools/bin \
+#          -ltr_retriever_dir=/opt/LTR_retriever -mafft_dir=/opt/mafft/bin \
+#          -ninja_dir=/opt/NINJA/NINJA -recon_dir=/opt/RECON/bin \
+#          -repeatmasker_dir=/opt/RepeatMasker \
+#          -rmblast_dir=/opt/rmblast/bin -rscout_dir=/opt/RepeatScout \
+#          -trf_dir=/opt \
+#          -ucsctools_dir=/opt/ucsc_tools
 
-# COPY --from=builder /opt /opt
-RUN echo "PS1='(dfam-tetools \$(pwd))\\\$ '" >> /etc/bash.bashrc
-ENV LANG=C
-ENV PYTHONIOENCODING=utf8
-ENV PATH=/opt/RepeatMasker:/opt/RepeatMasker/util:/opt/RepeatModeler:/opt/RepeatModeler/util:/opt/coseg:/opt/ucsc_tools:/opt:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/opt/rmblast/bin:/bin
+# # COPY --from=builder /opt /opt
+# RUN echo "PS1='(dfam-tetools \$(pwd))\\\$ '" >> /etc/bash.bashrc
+# ENV LANG=C
+# ENV PYTHONIOENCODING=utf8
+# ENV PATH=/opt/RepeatMasker:/opt/RepeatMasker/util:/opt/RepeatModeler:/opt/RepeatModeler/util:/opt/coseg:/opt/ucsc_tools:/opt:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/opt/rmblast/bin:/bin
 
-COPY container_test.sh /opt/src/
-RUN chmod 701 /opt/src/container_test.sh
-RUN /opt/src/container_test.sh
+# COPY container_test.sh /opt/src/
+# RUN chmod 701 /opt/src/container_test.sh
+# RUN /opt/src/container_test.sh

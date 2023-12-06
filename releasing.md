@@ -1,5 +1,5 @@
 # Dfam TE Tools Release checklist
-
+Build location can be changed. https://www.digitalocean.com/community/questions/how-to-move-the-default-var-lib-docker-to-another-directory-for-docker-on-linux 
 1. Update included software
   * `getsrc.sh`: downloaded file names
   * `sha256sums.txt`: checksums

@@ -31,7 +31,7 @@ programs are available, singularity is preferred."
 
 ## Parse command-line arguments ##
 
-container="dfam/tetools:1.88"
+container="dfam/tetools:dev"
 use_docker=0
 use_singularity=0
 
@@ -101,10 +101,9 @@ fi
 if [ "$use_docker" = 1 ]; then
 	docker run -it --rm \
 		--init \
-		--mount type=bind,source="$workdir",target=/work \
+		--mount type=bind,source="$workdir/Libraries",target=/opt/RepeatMasker/Libraries \
 		--user "$(id -u):$(id -g)" \
-		--workdir "/work" \
-		--env "HOME=/work" \
+		--workdir "/opt" \
 		"$container" \
 		"$@"
 elif [ "$use_singularity" = 1 ]; then

@@ -133,18 +133,7 @@ cd /opt/RepeatMasker
 ./tetoolsDfamUpdate.pl
 ```
 
-
-To include RepBase data, download and unzip `RepBaseRepeatMaskerEdition-#######.tar.gz` into `Libraries`.
-```sh
-# run the container. You can also use the first command above again
-./dfam-tetools.sh --docker
-
-# in the container, run addRepBase.pl
-/opt/RepeatMasker/addRepBase.pl -libdir /opt/RepeatMasker/Libraries/
-
-# exit the container
-exit
-```
+To include RepBase data, download and unzip `RepBaseRepeatMaskerEdition-#######.tar.gz` into `Libraries` and follow the steps above.
 
 When using the image with the new `Libraries` folder, mount it to the container using the `-v` argument.
 All paths must be absolute. `./dfam-tetools.sh` does this automatically.

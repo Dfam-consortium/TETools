@@ -113,12 +113,26 @@ cp -r /opt/RepeatMasker/Libraries/ ./
 
 # exit the container
 exit
+
+# Make sure you own the Libraries folder
+chown -R $USER ./Libraries/
 ```
 
 To include additional FamDB files, download, unzip, and include them in `Libraries/famdb`.
-They will be detected and included in queries automatically. Note that you will need a copy of the 0th partition
-in the host `Libraries` folder in addition to any addtitional files. It should be copied out of the container with 
-above steps, but make sure it is part of the same export as the additional files.
+They will be detected and included in queries automatically. Note that you will need a copy of the 0th partition in the host `Libraries` folder in addition to any addtitional files. It should be copied out of the container with  above steps.
+
+Whenever you modify the FamDB files, the RepeatMasker libraries must be regenerated.
+```sh
+# run the container. You can also use the first command above again
+./dfam-tetools.sh --docker
+
+# navigate to the RepeatMasker folder
+cd /opt/RepeatMasker
+
+# run the reconfigure script
+./tetoolsDfamUpdate.pl
+```
+
 
 To include RepBase data, download and unzip `RepBaseRepeatMaskerEdition-#######.tar.gz` into `Libraries`.
 ```sh
@@ -126,7 +140,10 @@ To include RepBase data, download and unzip `RepBaseRepeatMaskerEdition-#######.
 ./dfam-tetools.sh --docker
 
 # in the container, run addRepBase.pl
-/opt/RepeatMasker/addRepBase.pl -libdir Libraries/
+/opt/RepeatMasker/addRepBase.pl -libdir /opt/RepeatMasker/Libraries/
+
+# exit the container
+exit
 ```
 
 When using the image with the new `Libraries` folder, mount it to the container using the `-v` argument.

@@ -129,6 +129,9 @@ RUN cd /opt \
         -default_search_engine=rmblast \
     && cd .. && rm src/RepeatMasker-4.1.6.tar.gz
 
+# Include config update
+COPY tetoolsDfamUpdate.pl /opt/RepeatMasker/tetoolsDfamUpdate.pl
+
 # Configure RepeatModeler
 RUN cd /opt \
     && tar -x -f src/RepeatModeler-2.0.5.tar.gz \

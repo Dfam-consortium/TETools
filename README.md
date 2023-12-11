@@ -1,4 +1,5 @@
 # Dfam TE Tools Container
+> Note that as of version 1.88 TETools contains RepeatMasker 4.1.6. This version of RepeatMasker uses a new version of [FamDB](https://github.com/Dfam-consortium/FamDB) with a new format. This README contains instructions for modifying the files available to the TETools container, but the README file in the FamDB repository contains more information on the format itself.
 
 Dfam TE Tools includes RepeatMasker, RepeatModeler, and coseg. This container is
 an easy way to get a minimal yet fully functional installation of RepeatMasker
@@ -133,7 +134,23 @@ cd /opt/RepeatMasker
 ./tetoolsDfamUpdate.pl
 ```
 
-To include RepBase data, download and unzip `RepBaseRepeatMaskerEdition-#######.tar.gz` into `Libraries` and follow the steps above.
+To include RepBase data, download and unzip `RepBaseRepeatMaskerEdition-#######.tar.gz` into `Libraries` and run the updater script.
+```sh
+# Unpack the RepBase data
+tar -xvzf /work/path/to/Libaries/RepBaseRepeatMaskerEdition-#######.tar.gz
+
+# run the container. You can also use the first command above again
+./dfam-tetools.sh --docker
+
+# navigate to the RepeatMasker folder
+cd /opt/RepeatMasker
+
+# unlock libaries for reconfiguring 
+rm ./Libraries/famdb/rmlib.config
+
+# rerun the reconfigure script
+./tetoolsDfamUpdate.pl
+```
 
 When using the image with the new `Libraries` folder, mount it to the container using the `-v` argument.
 All paths must be absolute. `./dfam-tetools.sh` does this automatically.

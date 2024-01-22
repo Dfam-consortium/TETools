@@ -124,11 +124,14 @@ They will be detected and included in queries automatically. Note that you will 
 
 Whenever you modify the FamDB files, the RepeatMasker libraries must be regenerated.
 ```sh
-# run the container. You can also use the first command above again
-./dfam-tetools.sh --docker
+# run the container binding your host Libraries directory over the RepeatMasker directory
+docker run -it --rm -v <host path>/Libraries:/opt/RepeatMasker/Libraries dfam/tetools:<tag>
 
 # navigate to the RepeatMasker folder
 cd /opt/RepeatMasker
+
+# unlock libaries for reconfiguring 
+rm ./Libraries/famdb/rmlib.config
 
 # run the reconfigure script
 ./tetoolsDfamUpdate.pl
@@ -157,7 +160,7 @@ All paths must be absolute. `./dfam-tetools.sh` does this automatically.
 ```
 -v <host filesystem path to Libraries>/Libraries:/opt/RepeatMasker/Libraries
 ```
-
+Note that the process for modifying the files in a Singularity container is identical, but the arguments vary slightly. For example, instead of `-v` Singularity uses `-B`. `dfam-tetools.sh` also does not currently automatically mount host library directories for Singularity. 
 
 
 <br>

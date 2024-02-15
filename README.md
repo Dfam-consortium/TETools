@@ -196,9 +196,12 @@ docker build -t org/name:tag .
 singularity build dfam-tetools.sif dfam-tetools.def
 ```
 
+<!-- ### Multi-Platform Docker Build
+`docker buildx build --platform=linux/amd64,linux/arm64 .` -->
+
 ## Included software
 
-The following software is included in the Dfam TE Tools container (version `1.88`):
+The following software is included in the Dfam TE Tools container (version `1.8.5`):
 
 | | | |
 | -------------- | -------- | --- |
@@ -207,7 +210,7 @@ The following software is included in the Dfam TE Tools container (version `1.88
 | coseg          | 0.2.3    | <http://www.repeatmasker.org/COSEGDownload.html>
 | | | |
 | RMBlast        | 2.14.1   | <http://www.repeatmasker.org/RMBlast.html>
-| HMMER          | 3.3.2    | <http://hmmer.org/>
+| HMMER          | 3.4      | <http://hmmer.org/>
 | TRF            | 4.09.1   | <https://github.com/Benson-Genomics-Lab/TRF> |
 | RepeatScout    | 1.0.6    | <http://www.repeatmasker.org/RepeatScout-1.0.6.tar.gz>
 | RECON          | 1.08     | <http://www.repeatmasker.org/RepeatModeler/RECON-1.08.tar.gz>

@@ -18,7 +18,8 @@ RUN apt-get -y update && apt-get -y install \
     curl wget \
     vim nano \
     procps strace \
-    libpam-systemd-
+    libpam-systemd- \
+    python3-setuptools
   
 COPY src/* /opt/src/
 COPY sha256sums.txt /opt/src/
@@ -33,8 +34,8 @@ RUN cd /opt \
     && rm src/rmblast-2.14.1+-x64-linux.tar.gz
 
 # Compile HMMER
-RUN tar -x -f hmmer-3.3.2.tar.gz \
-    && cd hmmer-3.3.2 \
+RUN tar -x -f hmmer-3.4.tar.gz \
+    && cd hmmer-3.4 \
     && ./configure --prefix=/opt/hmmer && make && make install \
     && make clean
 
@@ -70,6 +71,13 @@ RUN tar -x -f gt-1.6.4.tar.gz \
     && make -j4 cairo=no && make cairo=no prefix=/opt/genometools install \
     && make cleanup
 
+# Configure TESorter
+# RUN cd /opt \
+#     && tar -x -f src/TEsorter-1.4.6.tar.gz \
+#     && mv TEsorter-1.4.6 TEsorter \
+#     && cd TEsorter \
+#     && python3 setup.py install
+
 # Configure LTR_retriever
 RUN cd /opt \
     && tar -x -f src/LTR_retriever-2.9.0.tar.gz \
@@ -80,6 +88,7 @@ RUN cd /opt \
         -e 's#RepeatMasker=#RepeatMasker=/opt/RepeatMasker#' \
         -e 's#HMMER=#HMMER=/opt/hmmer/bin#' \
         -e 's#CDHIT=#CDHIT=/opt/cd-hit#' \
+        -e 's#TEsorter=#TEsorter=/opt/TEsorter/dist#' \
         paths
 
 # Compile MAFFT
@@ -152,7 +161,7 @@ ENV LANG=C
 ENV PYTHONIOENCODING=utf8
 ENV PATH=/opt/RepeatMasker:/opt/RepeatMasker/util:/opt/RepeatModeler:/opt/RepeatModeler/util:/opt/coseg:/opt/ucsc_tools:/opt:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/opt/rmblast/bin:/bin
 
-COPY container_test.sh /opt/src/
-RUN chmod 701 /opt/src/container_test.sh
-RUN /opt/src/container_test.sh
+COPY container_test.sh /opt/
+RUN chmod 701 /opt/container_test.sh
+RUN /opt/container_test.sh | echo
 RUN rm -r /opt/src

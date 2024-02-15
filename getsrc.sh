@@ -23,11 +23,11 @@ download() {
 
 mkdir -p src
 
-download https://www.repeatmasker.org/rmblast/rmblast-2.14.1+-x64-linux.tar.gz
-download http://eddylab.org/software/hmmer/hmmer-3.3.2.tar.gz
+download http://www.repeatmasker.org/rmblast/rmblast-2.14.1+-x64-linux.tar.gz
+download http://eddylab.org/software/hmmer/hmmer-3.4.tar.gz
 download https://github.com/Benson-Genomics-Lab/TRF/archive/v4.09.1.tar.gz trf-4.09.1.tar.gz
-download https://www.repeatmasker.org/RepeatScout-1.0.6.tar.gz
-download https://www.repeatmasker.org/RepeatModeler/RECON-1.08.tar.gz
+download http://www.repeatmasker.org/RepeatScout-1.0.6.tar.gz
+download http://www.repeatmasker.org/RepeatModeler/RECON-1.08.tar.gz
 download https://github.com/weizhongli/cdhit/releases/download/V4.8.1/cd-hit-v4.8.1-2019-0228.tar.gz
 download https://github.com/genometools/genometools/archive/v1.6.4.tar.gz gt-1.6.4.tar.gz
 download https://github.com/oushujun/LTR_retriever/archive/v2.9.0.tar.gz LTR_retriever-2.9.0.tar.gz
@@ -36,8 +36,9 @@ download https://github.com/TravisWheelerLab/NINJA/archive/0.97-cluster_only.tar
 # download https://www.repeatmasker.org/coseg-0.2.3.tar.gz
 download https://github.com/rmhubley/coseg/archive/refs/tags/coseg-0.2.3.tar.gz
 download https://www.dfam.org/releases/Dfam_3.8/families/FamDB/dfam38_full.0.h5.gz
-download https://www.repeatmasker.org/RepeatMasker/RepeatMasker-4.1.6.tar.gz
+download http://www.repeatmasker.org/RepeatMasker/RepeatMasker-4.1.6.tar.gz
 download https://github.com/Dfam-consortium/RepeatModeler/archive/2.0.5.tar.gz RepeatModeler-2.0.5.tar.gz
+# download https://github.com/zhangrengang/TEsorter/archive/v1.4.6.tar.gz TEsorter-1.4.6.tar.gz
 
 # TODO: /exe/ only includes binaries of the "latest" version at the time of download.
 # The version listed in README.md is obtained by running 'strings src/faToTwoBit | grep kent'

@@ -3,9 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## 1.8.5
+## 1.88.5
 ### Updated
 - HMMER: `3.3.2` -> `3.4`
+- NINJA: `0.97-cluster_only` -> `0.99-cluster_only`
 
 ## 1.88 - 2023-12/11
 ### Updated

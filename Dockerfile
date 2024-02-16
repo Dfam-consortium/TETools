@@ -102,8 +102,8 @@ RUN tar -x -f mafft-7.471-without-extensions-src.tgz \
 RUN cd /opt \
     && mkdir NINJA \
     && tar --strip-components=1 -x -f src/NINJA-cluster.tar.gz -C NINJA \
-    && cd NINJA/NINJA \
-    && make clean && make all
+    && cd NINJA \
+    && make clean && make build
 
 # Move UCSC tools
 RUN mkdir /opt/ucsc_tools \

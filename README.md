@@ -196,12 +196,12 @@ docker build -t org/name:tag .
 singularity build dfam-tetools.sif dfam-tetools.def
 ```
 
-<!-- ### Multi-Platform Docker Build
-`docker buildx build --platform=linux/amd64,linux/arm64 .` -->
+### Multi-Platform Docker Build
+`docker buildx build --platform=linux/amd64,linux/arm64 -t dfam/tetools:dev --push .`
 
 ## Included software
 
-The following software is included in the Dfam TE Tools container (version `1.8.5`):
+The following software is included in the Dfam TE Tools container (version `1.88.5`):
 
 | | | |
 | -------------- | -------- | --- |
@@ -218,7 +218,7 @@ The following software is included in the Dfam TE Tools container (version `1.8.
 | genometools    | 1.6.4    | <https://github.com/genometools/genometools>
 | LTR\_retriever | 2.9.0    | <https://github.com/oushujun/LTR_retriever/>
 | MAFFT          | 7.471    |  <https://mafft.cbrc.jp/alignment/software/>
-| NINJA          | 0.97-cluster\_only | <https://github.com/TravisWheelerLab/NINJA>
+| NINJA          | 0.99-cluster\_only | <https://github.com/TravisWheelerLab/NINJA>
 | UCSC utilities\* | v413 | <http://hgdownload.soe.ucsc.edu/admin/exe/>>
 
 \* Selected tools only: `faToTwoBit`, `twoBitInfo`, `twoBitToFa`

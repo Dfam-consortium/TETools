@@ -15,14 +15,18 @@ Build location can be changed. https://www.digitalocean.com/community/questions/
   * Use the tag `dfam/tetools:dev`
 4. Test the container
   * `container_test.sh` will run as the last step of the build
-5. Commit and tag in git as x.y
+5. Build the multiplatform container if possible 
+  * ` docker buildx build --platform=linux/amd64,linux/arm64 --output=type=registry -t dfam/tetools:dev .`
+6. Pull complete container 
+  * `docker pull dfam/tetools:dev`
+7. Commit and tag in git as x.y
   * run `git tag -a x.y`
-6. Tag the container (in docker) as `:x`, `:x.y`, and `:latest`
+8. Tag the container (in docker) as `:x`, `:x.y`, and `:latest`
   * For each version, run: `docker image tag dfam/tetools:dev dfam/tetools:version`
-7. Push these tags to docker hub
+9. Push these tags to docker hub
   * For each tag made before: `docker push dfam/tetools:version`
-8. Push the commit and tag to github
-9. Generate a release on the github site
+10. Push the commit and tag to github
+11. Generate a release on the github site
   * On the releases tab select "Draft a new release"
   * Choose the tag saved in step 5
   * Use a release title like "Dfam TE Tools x.y"

@@ -197,7 +197,9 @@ singularity build dfam-tetools.sif dfam-tetools.def
 ```
 
 ### Multi-Platform Docker Build
-`docker buildx build --platform=linux/amd64,linux/arm64 -t dfam/tetools:dev --push .`
+```
+docker buildx build --platform=linux/amd64,linux/arm64 --output=type=registry -t dfam/tetools:<tag> .
+```
 
 ## Included software
 

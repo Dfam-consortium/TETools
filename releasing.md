@@ -25,6 +25,7 @@ Build location can be changed. https://www.digitalocean.com/community/questions/
   * For each version, run: `docker image tag dfam/tetools:dev dfam/tetools:version`
 9. Push these tags to docker hub
   * For each tag made before: `docker push dfam/tetools:version`
+  * Multiplatform: `docker buildx imagetools create --tag dfam/tetools:<new tag> dfam/tetools:dev`
 10. Push the commit and tag to github
 11. Generate a release on the github site
   * On the releases tab select "Draft a new release"

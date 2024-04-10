@@ -48,6 +48,8 @@ The wrapper script does the following:
   from within the container. Depending on the environment and the software used, this
   directory appears inside the container at its original location and/or at the path `/work`.
 
+**NOTE:** When using the wrapper script with the `--docker` option, it will attempt to mount the host `$(pwd)/Libraries` folder to the container `/opt/RepeatMasker/Libraries` folder. This is intended to enable the modification of local FamDB files, but it will also overwrite the library files within the container. To avoid this, copy those files to the host system using the steps below under **Customizing the RepeatMasker libraries**.
+
 ```
 curl -sSLO https://github.com/Dfam-consortium/TETools/raw/master/dfam-tetools.sh
 chmod +x dfam-tetools.sh

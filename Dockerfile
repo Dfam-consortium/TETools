@@ -123,12 +123,12 @@ RUN cd /opt \
     && make
 
 # Configure RepeatMasker
+# With Minimal TE Library
+#   - Also with full Dfam curated RepeatMasker.lib for RepeatClassifier
 RUN cd /opt \
-    && tar -x -f src/RepeatMasker-4.1.6.tar.gz \
+    && tar -x -f src/RepeatMasker-4.1.7.tar.gz \
     && chmod a+w RepeatMasker/Libraries \
     && chmod a+w RepeatMasker/Libraries/famdb \
-    && gunzip src/dfam38_full.0.h5.gz \
-    && mv src/dfam38_full.0.h5 /opt/RepeatMasker/Libraries/famdb/dfam38_full.0.h5 \
     && cd RepeatMasker \
     && perl configure \
         -hmmer_dir=/opt/hmmer/bin \
@@ -136,10 +136,28 @@ RUN cd /opt \
         -libdir=/opt/RepeatMasker/Libraries \
         -trf_prgm=/opt/trf \
         -default_search_engine=rmblast \
-    && cd .. && rm src/RepeatMasker-4.1.6.tar.gz
+    && gunzip -c src/Dfam-RepeatMasker.lib.gz > RepeatMasker/Libraries/RepeatMasker.lib \
+    && /opt/rmblast/bin/makeblastdb -dbtype nucl -in RepeatMasker/Libraries/RepeatMasker.lib \
+    && cd .. && rm src/RepeatMasker-4.1.7.tar.gz
 
-## Get the RepeatMasker.lib from a full installation
-## --and run makeblastdb
+# With Dfam root partition
+#RUN cd /opt \
+#    && tar -x -f src/RepeatMasker-4.1.6.tar.gz \
+#    && chmod a+w RepeatMasker/Libraries \
+#    && chmod a+w RepeatMasker/Libraries/famdb \
+#    && gunzip src/dfam38_full.0.h5.gz \
+#    && mv src/dfam38_full.0.h5 /opt/RepeatMasker/Libraries/famdb/dfam38_full.0.h5 \
+#    && cd RepeatMasker \
+#    && perl configure \
+#        -hmmer_dir=/opt/hmmer/bin \
+#        -rmblast_dir=/opt/rmblast/bin \
+#        -libdir=/opt/RepeatMasker/Libraries \
+#        -trf_prgm=/opt/trf \
+#        -default_search_engine=rmblast \
+#    && gunzip -c src/Dfam-RepeatMasker.lib.gz > RepeatMasker/Libraries/RepeatMasker.lib \
+#    && /opt/rmblast/bin/makeblastdb -dbtype nucl -in RepeatMasker/Libraries/RepeatMasker.lib \
+#    && cd .. && rm src/RepeatMasker-4.1.6.tar.gz
+
 
 # Include config update
 COPY tetoolsDfamUpdate.pl /opt/RepeatMasker/tetoolsDfamUpdate.pl

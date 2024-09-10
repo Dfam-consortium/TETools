@@ -86,17 +86,12 @@ singularity run dfam-tetools-latest.sif
 ### Customizing the RepeatMasker libraries
 <!-- previous header name / link: --><a id="using-repbase-repeatmasker-edition"></a>
 
-By default, RepeatMasker is only packaged with the root (0th) FamDB file. Details about 
-the contents of the files are available from the [FamDB repo](https://github.com/Dfam-consortium/FamDB) 
-and the files themselves are available to download from [Dfam.org](https://www.dfam.org/releases/Dfam_3.8/families/FamDB/) 
+Currently, RepeatMasker is installed without a TE library, however it will support 
+annotation with custom libraries (using the -lib mylib.fa command line option).  
 
-Additional setup is needed to install additional FamDB files and/or to install
-RepBase RepeatMasker Edition for use with the container. This is a different
-process from using a custom library of FASTA or HMM models, which can be
-accomplished by using the `-lib` option to `RepeatMasker`.
-
-Modifying the container can become a quite complex task, depending on which
-software and versions are being used and how the system is configured. Instead
+Additional setup is necesary to use TE libraries such as Dfam or RepBase for use
+with the container. Modifying the container can become a quite complex task, depending on
+which software and versions are being used and how the system is configured. Instead
 these instructions will create a modifiable local `Libraries` folder that can be 
 mounted back into the container.
 
@@ -117,10 +112,19 @@ exit
 
 # Make sure you own the Libraries folder
 chown -R $USER ./Libraries/
+
+# Remove the minimal famdb files
+rm ./Libraries/famdb/*
 ```
 
-To include additional FamDB files, download, unzip, and include them in `Libraries/famdb`.
-They will be detected and included in queries automatically. Note that you will need a copy of the 0th partition in the host `Libraries` folder in addition to any addtitional files. It should be copied out of the container with  above steps.
+To include Dfam you will need to download one or more famdb partitions from 
+the Dfam site. The top level partition ( partition 0 ) will be necessary, however
+additional partitions are optional.  The contens of the partitions for the current
+release can be found here [FamDB README](https://www.dfam.org/releases/current/families/FamDB/README.txt).
+The partitions may be downloaded from here [Dfam.org](https://www.dfam.org/releases/current/families/FamDB/).
+
+To include the Dfam FamDB files, download, unzip, and include them in `Libraries/famdb`.
+They will be detected and included in queries automatically. 
 
 Whenever you modify the FamDB files, the RepeatMasker libraries must be regenerated.
 ```sh

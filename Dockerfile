@@ -138,6 +138,9 @@ RUN cd /opt \
         -default_search_engine=rmblast \
     && cd .. && rm src/RepeatMasker-4.1.6.tar.gz
 
+## Get the RepeatMasker.lib from a full installation
+## --and run makeblastdb
+
 # Include config update
 COPY tetoolsDfamUpdate.pl /opt/RepeatMasker/tetoolsDfamUpdate.pl
 

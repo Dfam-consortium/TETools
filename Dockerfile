@@ -100,11 +100,13 @@ RUN tar -x -f mafft-7.471-without-extensions-src.tgz \
 
 # Compile NINJA
 RUN cd /opt \
-    && mkdir NINJA \
-    && tar --strip-components=1 -x -f src/NINJA-cluster.tar.gz -C NINJA \
+    && tar --strip-components=1 -x -f src/NINJA-cluster.tar.gz \
     && cd NINJA \
-    && make clean && make build
-
+    && make clean && make all \
+    && cd .. \
+    && mv LICENSE ./NINJA \
+    && mv README.md ./NINJA 
+    
 # Move UCSC tools
 RUN mkdir /opt/ucsc_tools \
     && mv faToTwoBit twoBitInfo twoBitToFa  /opt/ucsc_tools \
@@ -136,9 +138,9 @@ RUN cd /opt \
         -libdir=/opt/RepeatMasker/Libraries \
         -trf_prgm=/opt/trf \
         -default_search_engine=rmblast \
-    && gunzip -c src/Dfam-RepeatMasker.lib.gz > RepeatMasker/Libraries/RepeatMasker.lib \
-    && /opt/rmblast/bin/makeblastdb -dbtype nucl -in RepeatMasker/Libraries/RepeatMasker.lib \
-    && cd .. && rm src/RepeatMasker-4.1.7.tar.gz
+    && gunzip -c /opt/src/Dfam-RepeatMasker.lib.gz > Libraries/RepeatMasker.lib \
+    && /opt/rmblast/bin/makeblastdb -dbtype nucl -in Libraries/RepeatMasker.lib \
+    && cd .. && rm /opt/src/RepeatMasker-4.1.7.tar.gz
 
 # With Dfam root partition
 #RUN cd /opt \

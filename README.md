@@ -47,8 +47,12 @@ The wrapper script does the following:
 * Runs the container as the current user, with the current working directory accessible
   from within the container. Depending on the environment and the software used, this
   directory appears inside the container at its original location and/or at the path `/work`.
-
-**NOTE:** When using the wrapper script with the `--docker` option, it will attempt to mount the host `$(pwd)/Libraries` folder to the container `/opt/RepeatMasker/Libraries` folder. This is intended to enable the modification of local FamDB files, but it will also overwrite the library files within the container. To avoid this, copy those files to the host system using the steps below under **Customizing the RepeatMasker libraries**.
+* Binds a directory, ideally named `Libraries`, into the container over 
+  `/opt/RepeatMasker/Libraries` with the `--library` option. This is intended to enable the 
+  modification of local FamDB files, as the container is packaged with a minimal FamDB file. 
+  Note that this will overwrite the library files within the container. To avoid this, copy 
+  those files to the host system using the steps below under 
+  **Customizing the RepeatMasker libraries**.
 
 ```
 curl -sSLO https://github.com/Dfam-consortium/TETools/raw/master/dfam-tetools.sh
@@ -209,12 +213,12 @@ docker buildx build --platform=linux/amd64,linux/arm64 --output=type=registry -t
 
 ## Included software
 
-The following software is included in the Dfam TE Tools container (version `1.88.5`):
+The following software is included in the Dfam TE Tools container (version `1.89`):
 
 | | | |
 | -------------- | -------- | --- |
 | RepeatModeler  | 2.0.5    | <http://www.repeatmasker.org/RepeatModeler/>
-| RepeatMasker   | 4.1.6    | <http://www.repeatmasker.org/RMDownload.html>
+| RepeatMasker   | 4.1.7    | <http://www.repeatmasker.org/RMDownload.html>
 | coseg          | 0.2.3    | <http://www.repeatmasker.org/COSEGDownload.html>
 | | | |
 | RMBlast        | 2.14.1   | <http://www.repeatmasker.org/RMBlast.html>
@@ -226,7 +230,7 @@ The following software is included in the Dfam TE Tools container (version `1.88
 | genometools    | 1.6.4    | <https://github.com/genometools/genometools>
 | LTR\_retriever | 2.9.0    | <https://github.com/oushujun/LTR_retriever/>
 | MAFFT          | 7.471    |  <https://mafft.cbrc.jp/alignment/software/>
-| NINJA          | 0.99-cluster\_only | <https://github.com/TravisWheelerLab/NINJA>
+| NINJA          | 1.00-cluster\_only | <https://github.com/TravisWheelerLab/NINJA>
 | UCSC utilities\* | v413 | <http://hgdownload.soe.ucsc.edu/admin/exe/>>
 
 \* Selected tools only: `faToTwoBit`, `twoBitInfo`, `twoBitToFa`

@@ -6,8 +6,6 @@
 
 set -eu
 
-workdir="$(pwd)"
-
 die() {
 	printf "%s\n" "$*" >&2
 	exit 1
@@ -17,12 +15,14 @@ usage() {
 printf "%s\n" "Usage: dfam-tetools.sh [-h|--help]
 	[--container=/path/to/dfam-tetools.sif | --container=dfam/tetools:tag]
 	[--docker | --singularity]
+	[--library]
 	[-- command [arg1 [arg2 [...]]]]
 
 --container	Choose a specific container to use (a .sif file or a docker image ID or tag)
---docker	Run the container via docker
+--docker	    Run the container via docker
 --singularity	Run the container via singularity
-command		A command to run in the container instead of an interactive shell
+--library       A directory containing modified RepeatMasker/Libraries files
+command		    A command to run in the container instead of an interactive shell
 
 If neither --docker nor --singularity is specified and both
 programs are available, singularity is preferred."
@@ -31,9 +31,12 @@ programs are available, singularity is preferred."
 
 ## Parse command-line arguments ##
 
-container="dfam/tetools:1.88.5"
+container="dfam/tetools:1.89"
 use_docker=0
 use_singularity=0
+use_lib=0
+workdir=""
+bind_cmd=""
 
 while [ $# -ge 1 ]; do
 	opt="$1"
@@ -64,6 +67,11 @@ The --trf_prgm parameter was ignored." >&2
 		;;
 	--singularity)
 		use_singularity=1
+		;;
+	--library)
+		use_lib=1
+		workdir="$1"
+		shift
 		;;
 	*)
 		die "Unrecognized argument: $opt
@@ -99,19 +107,26 @@ fi
 ## Run the container ##
 
 if [ "$use_docker" = 1 ]; then
+	if [ "$use_lib" = 1 ]; then
+		bind_cmd="--mount type=bind,source=$workdir,target=/opt/RepeatMasker/Libraries"
+	fi
 	docker run -it --rm \
 		--init \
-		--mount type=bind,source="$workdir/Libraries",target=/opt/RepeatMasker/Libraries \
+		$bind_cmd \
 		--user "$(id -u):$(id -g)" \
 		--workdir "/opt" \
 		"$container" \
 		"$@"
 elif [ "$use_singularity" = 1 ]; then
+	if [ "$use_lib" = 1 ]; then
+		bind_cmd="-B $workdir:/opt/RepeatMasker/Libraries"
+	fi
 	if [ $# -eq 0 ]; then
 		set -- "/bin/bash"
 	fi
 	export LANG=C
 	singularity exec \
+		$bind_cmd \
 		"$container" \
 		"$@"
 fi

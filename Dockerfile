@@ -30,7 +30,7 @@ WORKDIR /opt/src
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
         sha256sum -c sha256sums.txt; \
     elif [ "$TARGETARCH" = "arm64" ]; then \
-        shasum -a 256 -c sha256sums.txt; \ 
+        cat sha256sums.txt | shasum -a 256 -c; \ 
     fi
 
 # Extract RMBlast

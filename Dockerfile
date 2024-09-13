@@ -2,6 +2,8 @@
 
 FROM debian:12 AS builder
 
+ARG TARGETARCH
+
 RUN apt-get -y update && apt-get -y install \
     gcc \
     g++ \
@@ -28,10 +30,12 @@ WORKDIR /opt/src
 RUN sha256sum -c sha256sums.txt
 
 # Extract RMBlast
-RUN cd /opt \
-    && mkdir rmblast \
-    && tar --strip-components=1 -x -f src/rmblast-2.14.1+-x64-linux.tar.gz -C rmblast \
-    && rm src/rmblast-2.14.1+-x64-linux.tar.gz
+RUN mkdir /opt/rmblast && \
+    if [ "$TARGETARCH" = "amd64" ]; then \
+        tar --strip-components=1 -x -f /opt/src/rmblast-2.14.1+-x64-linux.tar.gz -C /opt/rmblast; \
+    elif [ "$TARGETARCH" = "arm64" ]; then \
+        tar --strip-components=1 -x -f /opt/src/rmblast-2.14.1+-arm64-macosx.tar.gz -C /opt/rmblast; \ 
+    fi
 
 # Compile HMMER
 RUN tar -x -f hmmer-3.4.tar.gz \
@@ -108,9 +112,16 @@ RUN cd /opt \
     && mv README.md ./NINJA 
     
 # Move UCSC tools
-RUN mkdir /opt/ucsc_tools \
-    && mv faToTwoBit twoBitInfo twoBitToFa  /opt/ucsc_tools \
-    && chmod +x /opt/ucsc_tools/*
+RUN mkdir /opt/ucsc_tools && \
+    if [ "$TARGETARCH" = "amd64" ]; then \
+        mv /opt/src/faToTwoBit_x86 /opt/ucsc_tools/faToTwoBit; \
+        mv /opt/src/twoBitInfo_x86 /opt/ucsc_tools/twoBitInfo; \
+        mv /opt/src/twoBitToFa_x86 /opt/ucsc_tools/twoBitToFa; \
+    elif [ "$TARGETARCH" = "arm64" ]; then \
+        mv /opt/src/faToTwoBit_arm64 /opt/ucsc_tools/faToTwoBit;  \
+        mv /opt/src/twoBitInfo_arm64 /opt/ucsc_tools/twoBitInfo; \
+        mv /opt/src/twoBitToFa_arm64 /opt/ucsc_tools/twoBitToFa; \
+    fi 
 COPY LICENSE.ucsc /opt/ucsc_tools/LICENSE
 
 # Compile and configure coseg
@@ -140,7 +151,7 @@ RUN cd /opt \
         -default_search_engine=rmblast \
     && gunzip -c /opt/src/Dfam-RepeatMasker.lib.gz > Libraries/RepeatMasker.lib \
     && /opt/rmblast/bin/makeblastdb -dbtype nucl -in Libraries/RepeatMasker.lib \
-    && cd .. && rm /opt/src/RepeatMasker-4.1.7.tar.gz
+    && cd ..
 
 # With Dfam root partition
 #RUN cd /opt \
@@ -158,8 +169,7 @@ RUN cd /opt \
 #        -default_search_engine=rmblast \
 #    && gunzip -c src/Dfam-RepeatMasker.lib.gz > RepeatMasker/Libraries/RepeatMasker.lib \
 #    && /opt/rmblast/bin/makeblastdb -dbtype nucl -in RepeatMasker/Libraries/RepeatMasker.lib \
-#    && cd .. && rm src/RepeatMasker-4.1.6.tar.gz
-
+#    && cd ..
 
 # Include config update
 COPY tetoolsDfamUpdate.pl /opt/RepeatMasker/tetoolsDfamUpdate.pl
@@ -178,7 +188,6 @@ RUN cd /opt \
          -trf_dir=/opt \
          -ucsctools_dir=/opt/ucsc_tools
 
-# COPY --from=builder /opt /opt
 RUN echo "PS1='(dfam-tetools \$(pwd))\\\$ '" >> /etc/bash.bashrc
 ENV LANG=C
 ENV PYTHONIOENCODING=utf8

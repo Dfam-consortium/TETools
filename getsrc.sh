@@ -24,6 +24,7 @@ download() {
 mkdir -p src
 
 download http://www.repeatmasker.org/rmblast/rmblast-2.14.1+-x64-linux.tar.gz
+download http://www.repeatmasker.org/rmblast/rmblast-2.14.1+-arm64-macosx.tar.gz
 download http://eddylab.org/software/hmmer/hmmer-3.4.tar.gz
 download https://github.com/Benson-Genomics-Lab/TRF/archive/v4.09.1.tar.gz trf-4.09.1.tar.gz
 download http://www.repeatmasker.org/RepeatScout-1.0.6.tar.gz
@@ -47,6 +48,10 @@ download https://github.com/Dfam-consortium/RepeatModeler/archive/2.0.5.tar.gz R
 # Consider building these tools from source instead.
 for tool in faToTwoBit twoBitInfo twoBitToFa; do
   download https://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/"$tool"
+  mv src/"$tool" src/"$tool"_x86
+
+  download https://hgdownload.soe.ucsc.edu/admin/exe/macOSX.arm64/"$tool"
+  mv src/"$tool" src/"$tool"_arm64
 done
 
 cd ./src

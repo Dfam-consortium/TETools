@@ -27,7 +27,11 @@ COPY src/* /opt/src/
 COPY sha256sums.txt /opt/src/
 WORKDIR /opt/src
 
-RUN sha256sum -c sha256sums.txt
+RUN if [ "$TARGETARCH" = "amd64" ]; then \
+        sha256sum -c sha256sums.txt; \
+    elif [ "$TARGETARCH" = "arm64" ]; then \
+        shasum -a 256 -c sha256sums.txt; \ 
+    fi
 
 # Extract RMBlast
 RUN mkdir /opt/rmblast && \

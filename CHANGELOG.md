@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+
+## 1.89.1
+### Updated
+- RepeatMasker: `4.1.7` -> `4.1.7-p1`
+
 ## 1.89
 ### Updated
 - RepeatMasker: `4.1.6` -> `4.1.7`

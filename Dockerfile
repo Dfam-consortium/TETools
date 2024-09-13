@@ -128,7 +128,7 @@ RUN cd /opt \
 # With Minimal TE Library
 #   - Also with full Dfam curated RepeatMasker.lib for RepeatClassifier
 RUN cd /opt \
-    && tar -x -f src/RepeatMasker-4.1.7.tar.gz \
+    && tar -x -f src/RepeatMasker-4.1.7-p1.tar.gz \
     && chmod a+w RepeatMasker/Libraries \
     && chmod a+w RepeatMasker/Libraries/famdb \
     && cd RepeatMasker \
@@ -184,7 +184,5 @@ ENV LANG=C
 ENV PYTHONIOENCODING=utf8
 ENV PATH=/opt/RepeatMasker:/opt/RepeatMasker/util:/opt/RepeatModeler:/opt/RepeatModeler/util:/opt/coseg:/opt/ucsc_tools:/opt:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/opt/rmblast/bin:/bin
 
-COPY container_test.sh /opt/
-RUN chmod 701 /opt/container_test.sh
-RUN /opt/container_test.sh | echo
-RUN rm -r /opt/src
+RUN chmod +x /opt/ucsc_tools/* \
+    && rm -r /opt/src

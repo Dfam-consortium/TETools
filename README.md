@@ -213,12 +213,12 @@ docker buildx build --platform=linux/amd64,linux/arm64 --output=type=registry -t
 
 ## Included software
 
-The following software is included in the Dfam TE Tools container (version `1.89`):
+The following software is included in the Dfam TE Tools container (version `1.89.1`):
 
 | | | |
 | -------------- | -------- | --- |
 | RepeatModeler  | 2.0.5    | <http://www.repeatmasker.org/RepeatModeler/>
-| RepeatMasker   | 4.1.7    | <http://www.repeatmasker.org/RMDownload.html>
+| RepeatMasker   | 4.1.7-p1 | <http://www.repeatmasker.org/RMDownload.html>
 | coseg          | 0.2.3    | <http://www.repeatmasker.org/COSEGDownload.html>
 | | | |
 | RMBlast        | 2.14.1   | <http://www.repeatmasker.org/RMBlast.html>

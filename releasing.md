@@ -14,7 +14,7 @@ Build location can be changed. https://www.digitalocean.com/community/questions/
 3. Build the container (see `README.md`)
   * Use the tag `dfam/tetools:dev`
 4. Test the container
-  * `container_test.sh` will run as the last step of the build
+  * `container_test.sh`
 5. Build the multiplatform container if possible 
   * ` docker buildx build --platform=linux/amd64,linux/arm64 --output=type=registry -t dfam/tetools:dev .`
 6. Pull complete container 

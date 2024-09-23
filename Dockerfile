@@ -188,7 +188,7 @@ RUN cd /opt \
     && perl configure \
          -cdhit_dir=/opt/cd-hit -genometools_dir=/opt/genometools/bin \
          -ltr_retriever_dir=/opt/LTR_retriever -mafft_dir=/opt/mafft/bin \
-         -ninja_dir=/opt/NINJA/NINJA -recon_dir=/opt/RECON/bin \
+         -ninja_dir=/opt/NINJA -recon_dir=/opt/RECON/bin \
          -repeatmasker_dir=/opt/RepeatMasker \
          -rmblast_dir=/opt/rmblast/bin -rscout_dir=/opt/RepeatScout \
          -trf_dir=/opt \

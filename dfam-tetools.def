@@ -1,5 +1,2 @@
 Bootstrap: docker-daemon
 From: dfam/tetools:dev
-
-%environment
-  export LANG=C

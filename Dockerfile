@@ -58,10 +58,11 @@ RUN tar -x -f trf-4.09.1.tar.gz \
     && cd .. && rm -r build
 
 # Compile RepeatScout
-RUN tar -x -f RepeatScout-1.0.6.tar.gz \
-    && cd RepeatScout-1.0.6 \
+RUN tar -x -f RepeatScout-1.0.7.tar.gz \
+    && cd RepeatScout-1.0.7 \
+    && mv README.md README \
     && sed -i 's#^INSTDIR =.*#INSTDIR = /opt/RepeatScout#' Makefile \
-    && make && make install
+    && make install
 
 # Compile and configure RECON
 RUN tar -x -f RECON-1.08.tar.gz \
@@ -176,8 +177,8 @@ COPY tetoolsDfamUpdate.pl /opt/RepeatMasker/tetoolsDfamUpdate.pl
 
 # Configure RepeatModeler
 RUN cd /opt \
-    && tar -x -f src/RepeatModeler-2.0.5.tar.gz \
-    && mv RepeatModeler-2.0.5 RepeatModeler \
+    && tar -x -f src/RepeatModeler-2.0.6.tar.gz \
+    && mv RepeatModeler-2.0.6 RepeatModeler \
     && cd RepeatModeler \
     && perl configure \
          -cdhit_dir=/opt/cd-hit -genometools_dir=/opt/genometools/bin \

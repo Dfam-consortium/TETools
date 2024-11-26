@@ -213,18 +213,18 @@ docker buildx build --platform=linux/amd64,linux/arm64 --output=type=registry -t
 
 ## Included software
 
-The following software is included in the Dfam TE Tools container (version `1.89.1`):
+The following software is included in the Dfam TE Tools container (version `1.90`):
 
 | | | |
 | -------------- | -------- | --- |
-| RepeatModeler  | 2.0.5    | <http://www.repeatmasker.org/RepeatModeler/>
+| RepeatModeler  | 2.0.6    | <https://github.com/Dfam-consortium/RepeatModeler>
 | RepeatMasker   | 4.1.7-p1 | <http://www.repeatmasker.org/RMDownload.html>
 | coseg          | 0.2.3    | <http://www.repeatmasker.org/COSEGDownload.html>
 | | | |
 | RMBlast        | 2.14.1   | <http://www.repeatmasker.org/RMBlast.html>
 | HMMER          | 3.4      | <http://hmmer.org/>
 | TRF            | 4.09.1   | <https://github.com/Benson-Genomics-Lab/TRF> |
-| RepeatScout    | 1.0.6    | <http://www.repeatmasker.org/RepeatScout-1.0.6.tar.gz>
+| RepeatScout    | 1.0.7    | <https://github.com/Dfam-consortium/RepeatScout>
 | RECON          | 1.08     | <http://www.repeatmasker.org/RepeatModeler/RECON-1.08.tar.gz>
 | cd-hit         | 4.8.1    | <https://github.com/weizhongli/cdhit>
 | genometools    | 1.6.4    | <https://github.com/genometools/genometools>

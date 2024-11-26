@@ -27,7 +27,7 @@ download http://www.repeatmasker.org/rmblast/rmblast-2.14.1+-x64-linux.tar.gz
 download http://www.repeatmasker.org/rmblast/rmblast-2.14.1+-arm64-macosx.tar.gz
 download http://eddylab.org/software/hmmer/hmmer-3.4.tar.gz
 download https://github.com/Benson-Genomics-Lab/TRF/archive/v4.09.1.tar.gz trf-4.09.1.tar.gz
-download http://www.repeatmasker.org/RepeatScout-1.0.6.tar.gz
+download https://github.com/Dfam-consortium/RepeatScout/archive/refs/tags/v1.0.7.tar.gz RepeatScout-1.0.7.tar.gz
 download http://www.repeatmasker.org/RepeatModeler/RECON-1.08.tar.gz
 download https://github.com/weizhongli/cdhit/releases/download/V4.8.1/cd-hit-v4.8.1-2019-0228.tar.gz
 download https://github.com/genometools/genometools/archive/v1.6.4.tar.gz gt-1.6.4.tar.gz
@@ -39,7 +39,7 @@ download https://github.com/rmhubley/coseg/archive/refs/tags/coseg-0.2.3.tar.gz
 # download https://www.dfam.org/releases/Dfam_3.8/families/FamDB/dfam38_full.0.h5.gz
 download https://www.dfam.org/releases/Dfam_3.8/families/Dfam-RepeatMasker.lib.gz
 download http://www.repeatmasker.org/RepeatMasker/RepeatMasker-4.1.7-p1.tar.gz
-download https://github.com/Dfam-consortium/RepeatModeler/archive/2.0.5.tar.gz RepeatModeler-2.0.5.tar.gz
+download https://github.com/Dfam-consortium/RepeatModeler/archive/2.0.6.tar.gz RepeatModeler-2.0.6.tar.gz
 # download https://github.com/zhangrengang/TEsorter/archive/v1.4.6.tar.gz TEsorter-1.4.6.tar.gz
 
 # TODO: /exe/ only includes binaries of the "latest" version at the time of download.

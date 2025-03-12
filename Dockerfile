@@ -2,8 +2,6 @@
 
 FROM debian:12 AS builder
 
-ARG TARGETARCH
-
 RUN apt-get -y update && apt-get -y install \
     gcc \
     g++ \
@@ -28,21 +26,11 @@ COPY src/* /opt/src/
 COPY sha256sums.txt /opt/src/
 WORKDIR /opt/src
 
-RUN if [ "$TARGETARCH" = "amd64" ]; then \
-        sha256sum -c sha256sums.txt; \
-    elif [ "$TARGETARCH" = "arm64" ]; then \
-        mv sha256sums.txt /opt; \
-        cat /opt/sha256sums.txt | shasum -a 256 -c; \ 
-        rm /opt/sha256sums.txt; \
-    fi
+RUN sha256sum -c sha256sums.txt; 
 
 # Extract RMBlast
 RUN mkdir /opt/rmblast && \
-    if [ "$TARGETARCH" = "amd64" ]; then \
-        tar --strip-components=1 -x -f /opt/src/rmblast-2.14.1+-x64-linux.tar.gz -C /opt/rmblast; \
-    elif [ "$TARGETARCH" = "arm64" ]; then \
-        tar --strip-components=1 -x -f /opt/src/rmblast-2.14.1+-arm64-macosx.tar.gz -C /opt/rmblast; \ 
-    fi
+    tar --strip-components=1 -x -f /opt/src/rmblast-2.14.1+-x64-linux.tar.gz -C /opt/rmblast; 
 
 # Compile HMMER
 RUN tar -x -f hmmer-3.4.tar.gz \
@@ -114,15 +102,10 @@ RUN cd /opt \
     
 # Move UCSC tools
 RUN mkdir /opt/ucsc_tools && \
-    if [ "$TARGETARCH" = "amd64" ]; then \
-        mv /opt/src/faToTwoBit_x86 /opt/ucsc_tools/faToTwoBit; \
-        mv /opt/src/twoBitInfo_x86 /opt/ucsc_tools/twoBitInfo; \
-        mv /opt/src/twoBitToFa_x86 /opt/ucsc_tools/twoBitToFa; \
-    elif [ "$TARGETARCH" = "arm64" ]; then \
-        mv /opt/src/faToTwoBit_arm64 /opt/ucsc_tools/faToTwoBit;  \
-        mv /opt/src/twoBitInfo_arm64 /opt/ucsc_tools/twoBitInfo; \
-        mv /opt/src/twoBitToFa_arm64 /opt/ucsc_tools/twoBitToFa; \
-    fi 
+    mv /opt/src/faToTwoBit /opt/ucsc_tools/faToTwoBit; \
+    mv /opt/src/twoBitInfo /opt/ucsc_tools/twoBitInfo; \
+    mv /opt/src/twoBitToFa /opt/ucsc_tools/twoBitToFa; 
+   
 COPY LICENSE.ucsc /opt/ucsc_tools/LICENSE
 
 # Compile and configure coseg
@@ -154,24 +137,6 @@ RUN cd /opt \
     && /opt/rmblast/bin/makeblastdb -dbtype nucl -in Libraries/RepeatMasker.lib \
     && cd ..
 
-# With Dfam root partition
-#RUN cd /opt \
-#    && tar -x -f src/RepeatMasker-4.1.6.tar.gz \
-#    && chmod a+w RepeatMasker/Libraries \
-#    && chmod a+w RepeatMasker/Libraries/famdb \
-#    && gunzip src/dfam38_full.0.h5.gz \
-#    && mv src/dfam38_full.0.h5 /opt/RepeatMasker/Libraries/famdb/dfam38_full.0.h5 \
-#    && cd RepeatMasker \
-#    && perl configure \
-#        -hmmer_dir=/opt/hmmer/bin \
-#        -rmblast_dir=/opt/rmblast/bin \
-#        -libdir=/opt/RepeatMasker/Libraries \
-#        -trf_prgm=/opt/trf \
-#        -default_search_engine=rmblast \
-#    && gunzip -c src/Dfam-RepeatMasker.lib.gz > RepeatMasker/Libraries/RepeatMasker.lib \
-#    && /opt/rmblast/bin/makeblastdb -dbtype nucl -in RepeatMasker/Libraries/RepeatMasker.lib \
-#    && cd ..
-
 # Include config update
 COPY tetoolsDfamUpdate.pl /opt/RepeatMasker/tetoolsDfamUpdate.pl
 
@@ -200,6 +165,7 @@ ENV LC_ALL en_US.UTF-8
 
 ENV PYTHONIOENCODING=utf8
 ENV PATH=/opt/RepeatMasker:/opt/RepeatMasker/util:/opt/RepeatModeler:/opt/RepeatModeler/util:/opt/coseg:/opt/ucsc_tools:/opt:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/opt/rmblast/bin:/bin
+ENV BLAST_USAGE_REPORT=false
 
 RUN chmod +x /opt/ucsc_tools/* \
     && rm -r /opt/src

@@ -38,7 +38,7 @@ download https://github.com/TravisWheelerLab/NINJA/archive/1.00-cluster_only.tar
 download https://github.com/rmhubley/coseg/archive/refs/tags/coseg-0.2.3.tar.gz
 # download https://www.dfam.org/releases/Dfam_3.8/families/FamDB/dfam38_full.0.h5.gz
 download https://www.dfam.org/releases/Dfam_3.8/families/Dfam-RepeatMasker.lib.gz
-download http://www.repeatmasker.org/RepeatMasker/RepeatMasker-4.1.7-p1.tar.gz
+download http://www.repeatmasker.org/RepeatMasker/RepeatMasker-4.1.8.tar.gz
 download https://github.com/Dfam-consortium/RepeatModeler/archive/2.0.6.tar.gz RepeatModeler-2.0.6.tar.gz
 # download https://github.com/zhangrengang/TEsorter/archive/v1.4.6.tar.gz TEsorter-1.4.6.tar.gz
 

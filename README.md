@@ -125,7 +125,7 @@ rm ./Libraries/famdb/*
 
 To include Dfam you will need to download one or more famdb partitions from 
 the Dfam site. The top level partition ( partition 0 ) will be necessary, however
-additional partitions are optional.  The contens of the partitions for the current
+additional partitions are optional.  The contents of the partitions for the current
 release can be found here [FamDB README](https://www.dfam.org/releases/current/families/FamDB/README.txt).
 The partitions may be downloaded from here [Dfam.org](https://www.dfam.org/releases/current/families/FamDB/).
 
@@ -202,23 +202,21 @@ You will need:
 # Build a docker container
 docker build -t org/name:tag .
 
+# or 
+docker build --network host -t org/name:tag .
+
 # (optional) build a singularity container
 singularity build dfam-tetools.sif dfam-tetools.def
 ```
 
-### Multi-Platform Docker Build
-```
-docker buildx build --platform=linux/amd64,linux/arm64 --output=type=registry -t dfam/tetools:<tag> .
-```
-
 ## Included software
 
-The following software is included in the Dfam TE Tools container (version `1.90`):
+The following software is included in the Dfam TE Tools container (version `1.91`):
 
 | | | |
 | -------------- | -------- | --- |
 | RepeatModeler  | 2.0.6    | <https://github.com/Dfam-consortium/RepeatModeler>
-| RepeatMasker   | 4.1.7-p1 | <http://www.repeatmasker.org/RMDownload.html>
+| RepeatMasker   | 4.1.8    | <http://www.repeatmasker.org/RMDownload.html>
 | coseg          | 0.2.3    | <http://www.repeatmasker.org/COSEGDownload.html>
 | | | |
 | RMBlast        | 2.14.1   | <http://www.repeatmasker.org/RMBlast.html>
@@ -231,7 +229,7 @@ The following software is included in the Dfam TE Tools container (version `1.90
 | LTR\_retriever | 2.9.0    | <https://github.com/oushujun/LTR_retriever/>
 | MAFFT          | 7.471    |  <https://mafft.cbrc.jp/alignment/software/>
 | NINJA          | 1.00-cluster\_only | <https://github.com/TravisWheelerLab/NINJA>
-| UCSC utilities\* | v413 | <http://hgdownload.soe.ucsc.edu/admin/exe/>>
+| UCSC utilities\* | v413 | <http://hgdownload.soe.ucsc.edu/admin/exe/>
 
 \* Selected tools only: `faToTwoBit`, `twoBitInfo`, `twoBitToFa`
 

@@ -12,7 +12,7 @@ declare -A installation_tests=(
     ["NINJA"]='/opt/NINJA/Ninja -v'
     ["coseg"]='/opt/coseg/runcoseg.pl -version'
     ["RepeatMasker"]='/opt/RepeatMasker/RepeatMasker -v'
-    ["FamDB"]='/opt/RepeatMasker/famdb.py -i ./Libraries/famdb info'
+    ["FamDB"]='/opt/RepeatMasker/famdb.py -i /opt/RepeatMasker/Libraries/famdb info'
     ["RepeatModeler"]='/opt/RepeatModeler/RepeatModeler -version'
     # Needs actual input to test
     ["RepeatScout"]='/opt/RepeatScout/build_lmer_table -sequence example.fa -output out -freq 2'

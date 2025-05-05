@@ -123,7 +123,7 @@ RUN cd /opt \
 # With Minimal TE Library
 #   - Also with full Dfam curated RepeatMasker.lib for RepeatClassifier
 RUN cd /opt \
-    && tar -x -f src/RepeatMasker-4.1.8.tar.gz \
+    && tar -x -f src/RepeatMasker-4.1.9.tar.gz \
     && chmod a+w RepeatMasker/Libraries \
     && chmod a+w RepeatMasker/Libraries/famdb \
     && cd RepeatMasker \

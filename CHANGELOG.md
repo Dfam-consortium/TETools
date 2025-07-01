@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+## 1.93
+### Updated
+- RepeatMasker: `4.1.9` -> `4.2.0`
+- RepeatModeler: `2.0.6` -> `2.0.7`
+### Added
+- RepeatAfterMe: `0.0.7`
+
 ## 1.92
 ### Updated
 - RepeatMasker: `4.1.8` -> `4.1.9`

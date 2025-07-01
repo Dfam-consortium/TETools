@@ -35,8 +35,9 @@ download https://mafft.cbrc.jp/alignment/software/mafft-7.471-without-extensions
 download https://github.com/TravisWheelerLab/NINJA/archive/1.00-cluster_only.tar.gz NINJA-cluster.tar.gz
 download https://github.com/rmhubley/coseg/archive/refs/tags/coseg-0.2.3.tar.gz
 download https://www.dfam.org/releases/Dfam_3.9/families/Dfam-RepeatMasker.lib.gz
-download http://www.repeatmasker.org/RepeatMasker/RepeatMasker-4.1.9.tar.gz
-download https://github.com/Dfam-consortium/RepeatModeler/archive/2.0.6.tar.gz RepeatModeler-2.0.6.tar.gz
+download https://github.com/Dfam-consortium/RepeatAfterMe/archive/RepeatAfterMe_V0.0.7.tar.gz
+download http://www.repeatmasker.org/RepeatMasker/RepeatMasker-4.2.0.tar.gz
+download https://github.com/Dfam-consortium/RepeatModeler/archive/2.0.7.tar.gz RepeatModeler-2.0.7.tar.gz
 
 # TODO: /exe/ only includes binaries of the "latest" version at the time of download.
 # The version listed in README.md is obtained by running 'strings src/faToTwoBit | grep kent'

@@ -123,7 +123,7 @@ RUN cd /opt \
 # With Minimal TE Library
 #   - Also with full Dfam curated RepeatMasker.lib for RepeatClassifier
 RUN cd /opt \
-    && tar -x -f src/RepeatMasker-4.1.9.tar.gz \
+    && tar -x -f src/RepeatMasker-4.2.0.tar.gz \
     && chmod a+w RepeatMasker/Libraries \
     && chmod a+w RepeatMasker/Libraries/famdb \
     && cd RepeatMasker \
@@ -140,10 +140,17 @@ RUN cd /opt \
 # Include config update
 COPY tetoolsDfamUpdate.pl /opt/RepeatMasker/tetoolsDfamUpdate.pl
 
+# Unpack RepeatAfterMe
+RUN cd /opt \
+    && tar -x -f src/RepeatAfterMe_V0.0.7.tar.gz \ 
+    && mv RepeatAfterMe-RepeatAfterMe_V0.0.7  RepeatAfterMe \
+    && cd RepeatAfterMe \
+    && make INSTDIR=/opt/RepeatAfterMe 
+
 # Configure RepeatModeler
 RUN cd /opt \
-    && tar -x -f src/RepeatModeler-2.0.6.tar.gz \
-    && mv RepeatModeler-2.0.6 RepeatModeler \
+    && tar -x -f src/RepeatModeler-2.0.7.tar.gz \
+    && mv RepeatModeler-2.0.7 RepeatModeler \
     && cd RepeatModeler \
     && perl configure \
          -cdhit_dir=/opt/cd-hit -genometools_dir=/opt/genometools/bin \
@@ -152,7 +159,8 @@ RUN cd /opt \
          -repeatmasker_dir=/opt/RepeatMasker \
          -rmblast_dir=/opt/rmblast/bin -rscout_dir=/opt/RepeatScout \
          -trf_dir=/opt \
-         -ucsctools_dir=/opt/ucsc_tools
+         -ucsctools_dir=/opt/ucsc_tools \
+         -repeatafterme_dir=/opt/RepeatAfterMe
 
 RUN echo "PS1='(dfam-tetools \$(pwd))\\\$ '" >> /etc/bash.bashrc
 
@@ -166,6 +174,8 @@ ENV LC_ALL en_US.UTF-8
 ENV PYTHONIOENCODING=utf8
 ENV PATH=/opt/RepeatMasker:/opt/RepeatMasker/util:/opt/RepeatModeler:/opt/RepeatModeler/util:/opt/coseg:/opt/ucsc_tools:/opt:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/opt/rmblast/bin:/bin
 ENV BLAST_USAGE_REPORT=false
+
+ENV REPEATMODELER_DIR='/opt/RepeatModeler'
 
 RUN chmod +x /opt/ucsc_tools/* \
     && rm -r /opt/src

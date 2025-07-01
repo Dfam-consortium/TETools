@@ -14,6 +14,7 @@ declare -A installation_tests=(
     ["RepeatMasker"]='/opt/RepeatMasker/RepeatMasker -v'
     ["FamDB"]='/opt/RepeatMasker/famdb.py -i /opt/RepeatMasker/Libraries/famdb info'
     ["RepeatModeler"]='/opt/RepeatModeler/RepeatModeler -version'
+    ["RepeatAfterMe"]='/opt/RepeatAfterMe/RAMExtend -version'
     # Needs actual input to test
     ["RepeatScout"]='/opt/RepeatScout/build_lmer_table -sequence example.fa -output out -freq 2'
     ["RECON"]='/opt/RECON/bin/imagespread /opt/src/seqnames /opt/src/elegans.msps 1'

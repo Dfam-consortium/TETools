@@ -1,2 +1,2 @@
 Bootstrap: docker-daemon
-From: dfam/tetools:dev
+From: dfam/tetools:latest

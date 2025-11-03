@@ -14,6 +14,7 @@ Build location can be changed. https://www.digitalocean.com/community/questions/
   * `CHANGELOG.md`: "Unreleased" heading -> version number and date
 3. Build the container (see `README.md`)
   * Use the tag `dfam/tetools:dev`
+  * `docker build -t dfam/tetools:dev .`
 4. Test the container
   * `container_test.sh`
 <!-- 5. Build the multiplatform container if possible 

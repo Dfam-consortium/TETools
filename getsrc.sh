@@ -23,7 +23,7 @@ download() {
 
 mkdir -p src
 
-download http://www.repeatmasker.org/rmblast/rmblast-2.14.1+-x64-linux.tar.gz
+download http://www.repeatmasker.org/rmblast/rmblast-2.17.0+-x64-linux.tar.gz
 download http://eddylab.org/software/hmmer/hmmer-3.4.tar.gz
 download https://github.com/Benson-Genomics-Lab/TRF/archive/v4.09.1.tar.gz trf-4.09.1.tar.gz
 download https://github.com/Dfam-consortium/RepeatScout/archive/refs/tags/v1.0.7.tar.gz RepeatScout-1.0.7.tar.gz

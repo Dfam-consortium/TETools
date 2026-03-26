@@ -30,7 +30,7 @@ RUN sha256sum -c sha256sums.txt;
 
 # Extract RMBlast
 RUN mkdir /opt/rmblast && \
-    tar --strip-components=1 -x -f /opt/src/rmblast-2.14.1+-x64-linux.tar.gz -C /opt/rmblast; 
+    tar --strip-components=1 -x -f /opt/src/rmblast-2.17.0+-x64-linux.tar.gz -C /opt/rmblast; 
 
 # Compile HMMER
 RUN tar -x -f hmmer-3.4.tar.gz \

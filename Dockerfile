@@ -28,9 +28,17 @@ WORKDIR /opt/src
 
 RUN sha256sum -c sha256sums.txt; 
 
+# Extract FamDB
+RUN mkdir /opt/FamDB-Dfam-4.0 \
+    && ln -s /opt/FamDB-Dfam-4.0 /opt/FamDB \
+    && tar --strip-components=1 -x -f /opt/src/FamDB-3.0.0.tar.gz -C /opt/FamDB-Dfam-4.0 \
+    && mkdir /opt/FamDB-Dfam-4.0/Libraries/famdb \
+    && gunzip -c /opt/src/dfam40.0.h5.gz > /opt/FamDB-Dfam-4.0/Libraries/famdb/dfam40.0.h5 \
+    && gunzip -c /opt/src/dfam40.curated.consensus.0.h5.gz > /opt/FamDB-Dfam-4.0/Libraries/famdb/dfam40.curated.consensus.0.h5 
+
 # Extract RMBlast
 RUN mkdir /opt/rmblast && \
-    tar --strip-components=1 -x -f /opt/src/rmblast-2.17.0+-x64-linux.tar.gz -C /opt/rmblast; 
+    tar --strip-components=1 -x -f /opt/src/rmblast-2.17.1+-x64-linux.tar.gz -C /opt/rmblast; 
 
 # Compile HMMER
 RUN tar -x -f hmmer-3.4.tar.gz \
@@ -53,12 +61,10 @@ RUN tar -x -f RepeatScout-1.0.7.tar.gz \
     && make install
 
 # Compile and configure RECON
-RUN tar -x -f RECON-1.08.tar.gz \
-    && mv RECON-1.08 ../RECON \
+RUN tar -x -f RECON-1.10.tar.gz \
+    && mv RECON-1.10 ../RECON \
     && cd ../RECON \
-    && make -C src && make -C src install \
-    && cp 00README bin/ \
-    && sed -i 's#^\$path =.*#$path = "/opt/RECON/bin";#' scripts/recon.pl
+    && make && make install 
 
 # Compile cd-hit
 RUN tar -x -f cd-hit-v4.8.1-2019-0228.tar.gz \
@@ -101,10 +107,13 @@ RUN cd /opt \
     && mv README.md ./NINJA 
     
 # Move UCSC tools
-RUN mkdir /opt/ucsc_tools && \
-    mv /opt/src/faToTwoBit /opt/ucsc_tools/faToTwoBit; \
-    mv /opt/src/twoBitInfo /opt/ucsc_tools/twoBitInfo; \
-    mv /opt/src/twoBitToFa /opt/ucsc_tools/twoBitToFa; 
+RUN mkdir /opt/ucsc_tools \
+    && mv /opt/src/faToTwoBit /opt/ucsc_tools/faToTwoBit \
+    && chmod 755 /opt/ucsc_tools/faToTwoBit \
+    && mv /opt/src/twoBitInfo /opt/ucsc_tools/twoBitInfo \
+    && chmod 755 /opt/ucsc_tools/twoBitInfo \
+    && mv /opt/src/twoBitToFa /opt/ucsc_tools/twoBitToFa \
+    && chmod 755 /opt/ucsc_tools/twoBitToFa
    
 COPY LICENSE.ucsc /opt/ucsc_tools/LICENSE
 
@@ -123,18 +132,14 @@ RUN cd /opt \
 # With Minimal TE Library
 #   - Also with full Dfam curated RepeatMasker.lib for RepeatClassifier
 RUN cd /opt \
-    && tar -x -f src/RepeatMasker-4.2.3.tar.gz \
-    && chmod a+w RepeatMasker/Libraries \
-    && chmod a+w RepeatMasker/Libraries/famdb \
+    && tar -x -f src/RepeatMasker-4.2.4.tar.gz \
     && cd RepeatMasker \
     && perl configure \
+        -famdb_dir=/opt/FamDB-Dfam-4.0 \
         -hmmer_dir=/opt/hmmer/bin \
         -rmblast_dir=/opt/rmblast/bin \
-        -libdir=/opt/RepeatMasker/Libraries \
         -trf_prgm=/opt/trf \
         -default_search_engine=rmblast \
-    && gunzip -c /opt/src/Dfam-RepeatMasker.lib.gz > Libraries/RepeatMasker.lib \
-    && /opt/rmblast/bin/makeblastdb -dbtype nucl -in Libraries/RepeatMasker.lib \
     && cd ..
 
 # Include config update
@@ -149,10 +154,11 @@ RUN cd /opt \
 
 # Configure RepeatModeler
 RUN cd /opt \
-    && tar -x -f src/RepeatModeler-2.0.7.tar.gz \
-    && mv RepeatModeler-2.0.7 RepeatModeler \
+    && mkdir RepeatModeler \
+    && tar --strip-components=1 -x -f src/RepeatModeler-2.0.9.tar.gz -C /opt/RepeatModeler \
     && cd RepeatModeler \
-    && perl configure \
+    && perl configure -no_prompt \
+         -famdb_dir=/opt/FamDB-Dfam-4.0 \
          -cdhit_dir=/opt/cd-hit -genometools_dir=/opt/genometools/bin \
          -ltr_retriever_dir=/opt/LTR_retriever -mafft_dir=/opt/mafft/bin \
          -ninja_dir=/opt/NINJA -recon_dir=/opt/RECON/bin \
@@ -167,9 +173,9 @@ RUN echo "PS1='(dfam-tetools \$(pwd))\\\$ '" >> /etc/bash.bashrc
 # Set the locale
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && \
     locale-gen
-ENV LANG en_US.UTF-8  
-ENV LANGUAGE en_US:en  
-ENV LC_ALL en_US.UTF-8     
+ENV LANG=en_US.UTF-8  
+ENV LANGUAGE=en_US:en  
+ENV LC_ALL=en_US.UTF-8     
 
 ENV PYTHONIOENCODING=utf8
 ENV PATH=/opt/RepeatMasker:/opt/RepeatMasker/util:/opt/RepeatModeler:/opt/RepeatModeler/util:/opt/coseg:/opt/ucsc_tools:/opt:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/opt/rmblast/bin:/bin

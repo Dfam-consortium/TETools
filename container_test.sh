@@ -12,7 +12,7 @@ declare -A installation_tests=(
     ["NINJA"]='/opt/NINJA/Ninja -v'
     ["coseg"]='/opt/coseg/runcoseg.pl -version'
     ["RepeatMasker"]='/opt/RepeatMasker/RepeatMasker -v'
-    ["FamDB"]='/opt/RepeatMasker/famdb.py -i /opt/RepeatMasker/Libraries/famdb info'
+    ["FamDB"]='/opt/FamDB/famdb.py info'
     ["RepeatModeler"]='/opt/RepeatModeler/RepeatModeler -version'
     ["RepeatAfterMe"]='/opt/RepeatAfterMe/RAMExtend -version'
     # Needs actual input to test

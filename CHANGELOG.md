@@ -2,6 +2,24 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+
+## 2.00
+### Updated
+- RepeatModeler: `2.0.8` -> `2.0.9`
+- RepeatMasker: `4.2.3` -> `4.2.4`
+
+### Added
+- FamDB: `3.0.0`
+
+## 1.99
+### Updated
+- RepeatModeler: `2.0.7` -> `2.0.8`
+- RECON: `1.08` -> `1.10`
+
+## 1.98
+### Updated
+- RMBlast: `2.17.0` -> `2.17.1`
+
 ## 1.97
 ### Updated
 - RMBlast: `2.14.1` -> `2.17.0`

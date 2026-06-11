@@ -1,17 +1,18 @@
 # Dfam TE Tools Release checklist
 Build location can be changed. https://www.digitalocean.com/community/questions/how-to-move-the-default-var-lib-docker-to-another-directory-for-docker-on-linux 
 1. Update included software
-  * `getsrc.sh`: downloaded file names
+  * Edit `getsrc.sh`: downloaded file names
       * Remember to update `Dfam-RepeatMasker.lib.gz` path when Dfam release changes 
+      * After editing run the script to update the src/ subdirectory.
+      * Remove outdated packages from the src/ subdirectory.
   * `sha256sums.txt`: checksums
       * To update, run: `(cd src; sha256sum *) >sha256sums.txt`
-  * `Dockerfile`: paths
+  * Edit `Dockerfile`: paths
   * `README.md`: "Included software" table
   * `CHANGELOG.md`: "Updated" section
 2. Update version number in:
   * `dfam-tetools.sh`: container to run
   * `README.md`: "Included software" heading
-  * `CHANGELOG.md`: "Unreleased" heading -> version number and date
 3. Build the container (see `README.md`)
   * Use the tag `dfam/tetools:dev`
   * `docker build -t dfam/tetools:dev .`

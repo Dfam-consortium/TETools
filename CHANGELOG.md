@@ -3,6 +3,21 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## 2.01
+### Updated
+- RepeatMasker: `4.2.4` -> `4.2.6` (now obtained from GitHub releases)
+
+### Added
+- `dfam-tetools.sh --famdb` option (or `FAMDB_DIR`) to use an external FamDB installation
+- `python3-pandas` and `libgd-perl` system packages
+
+### Changed
+- `famdb.py` shebang pinned to the system `/usr/bin/python3` (which has h5py)
+- `dfam-tetools.sh` runs Singularity with `--cleanenv` and starts bash with `--norc --noprofile`
+
+### Removed
+- `tetoolsDfamUpdate.pl` and the `dfam-tetools.sh --library` option (obsolete since 2.00)
+
 ## 2.00
 ### Updated
 - RepeatModeler: `2.0.8` -> `2.0.9`

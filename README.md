@@ -1,7 +1,7 @@
 # Dfam TE Tools Container
-> Note that as of version 1.88 TETools contains RepeatMasker 4.1.6. This version of RepeatMasker uses a new version of [FamDB](https://github.com/Dfam-consortium/FamDB) with a new format. This README contains instructions for modifying the files available to the TETools container, but the README file in the FamDB repository contains more information on the format itself.
 
-Dfam TE Tools includes RepeatMasker, RepeatModeler, and coseg. This container is
+Dfam TE Tools includes various Transposable Element discovery, annotation and
+curation tools developed by various members of the Dfam consortium. This container is
 an easy way to get a minimal yet fully functional installation of RepeatMasker
 and RepeatModeler and is additionally useful for testing or reproducibility
 purposes.
@@ -47,13 +47,6 @@ The wrapper script does the following:
 * Runs the container as the current user, with the current working directory accessible
   from within the container. Depending on the environment and the software used, this
   directory appears inside the container at its original location and/or at the path `/work`.
-* Binds a directory, ideally named `Libraries`, into the container over 
-  `/opt/RepeatMasker/Libraries` with the `--library` option. This is intended to enable the 
-  modification of local FamDB files, as the container is packaged with a minimal FamDB file. 
-  Note that this will overwrite the library files within the container. To avoid this, copy 
-  those files to the host system using the steps below under 
-  **Customizing the RepeatMasker libraries**.
-
 ```
 curl -sSLO https://github.com/Dfam-consortium/TETools/raw/master/dfam-tetools.sh
 chmod +x dfam-tetools.sh
@@ -92,97 +85,83 @@ singularity run dfam-tetools-latest.sif
 ### Customizing the RepeatMasker libraries
 <!-- previous header name / link: --><a id="using-repbase-repeatmasker-edition"></a>
 
-Currently, RepeatMasker is installed without a TE library, however it will support 
-annotation with custom libraries (using the -lib mylib.fa command line option).  
+Currently, RepeatMasker is installed with the Dfam 4.0 curated consensus FamDB component.
+It will also support annotation with custom libraries (using the -lib mylib.fa command line option).  
 
-Additional setup is necesary to use TE libraries such as Dfam or RepBase for use
-with the container. Modifying the container can become a quite complex task, depending on
+#### Do I need an external FamDB?
+
+The container's built in FamDB includes the complete set of Dfam 4.0 curated
+consensus sequences and the TE protein library. For many uses no additional
+setup is needed:
+
+| Task | External FamDB needed? |
+| ---- | ---------------------- |
+| RepeatModeler / RepeatClassifier | No |
+| RepeatMasker `-lib mylib.fa` | No |
+| RepeatMasker `-species`, curated, w/consensus | No |
+| RepeatMasker `-species`, w/pHMMs | Yes - Dfam curated HMM partitions |
+| RepeatMasker `-species`, uncurated families | Yes - Dfam uncurated partitions |
+| RepeatMasker `-species`, with RepBase | Yes - RepBase merged into FamDB |
+
+#### Using an external FamDB installation
+
+Additional setup is necesary to use TE libraries such as Dfam pHMMs, uncurated families, or RepBase.
+Modifying the container can become a quite complex task, depending on
 which software and versions are being used and how the system is configured. Instead
-these instructions will create a modifiable local `Libraries` folder that can be 
-mounted back into the container.
+these instructions will demonstrate how to override the container's built in FamDB installation
+and use an external one.
 
-The first step is to copy the RepeatMasker Libraries out of the container to the host filesystem:
+> **Note:** Earlier releases of TE Tools (1.x) used the `tetoolsDfamUpdate.pl`
+> script and the wrapper's `--library` option to bind a modified
+> `RepeatMasker/Libraries` directory into the container. Both were removed in
+> 2.00 and are no longer needed. Do not bind anything over
+> `/opt/RepeatMasker/Libraries`; use an external FamDB installation as
+> described below instead.
+
+To install FamDB and download Dfam data partitions, follow the instructions at
+[https://github.com/Dfam-consortium/FamDB](https://github.com/Dfam-consortium/FamDB).
+In short: download and unpack the FamDB release, then run its downloader
+(`utils/download_dfam.py`) from inside the FamDB directory to fetch the
+partitions you need into its `Libraries/famdb` folder. The FamDB README
+describes the available partitions, how to download them, and how to verify
+the installation (e.g. `./famdb.py check "<species>"`).
+
+Once you have a FamDB installation directory (the directory containing
+`famdb.py`) on the host filesystem, direct the container to
+use it in one of three ways:
+
+**Wrapper script flag** (recommended):
 ```sh
-# Enter the container tagged with <tag>. This command will also mount your current directory to 
-# /work inside the container
-docker run -it --rm --workdir /work -v $(pwd):/work dfam/tetools:<tag>
-
-# confirm visibility to your working directory
-ls
-
-# Make a copy of the original RepeatMasker Libraries/ directory on your host filesystem
-cp -r /opt/RepeatMasker/Libraries/ ./
-
-# exit the container
-exit
-
-# Make sure you own the Libraries folder
-chown -R $USER ./Libraries/
+./dfam-tetools.sh --famdb /path/to/famdb -- RepeatMasker genome.fa
+./dfam-tetools.sh --famdb /path/to/famdb -- RepeatModeler -database genome1
 ```
 
-To include Dfam you will need to download one or more famdb partitions from 
-the Dfam site. The top level partition ( partition 0 ) will be necessary, however
-additional partitions are optional.  The contents of the partitions for the current
-release can be found here: [FamDB README](https://www.dfam.org/releases/current/families/FamDB/README.txt).
-The partitions may be downloaded from here: [Dfam.org](https://www.dfam.org/releases/current/families/FamDB/).
-
-To include the Dfam FamDB files, download, unzip, and include them in `Libraries/famdb`.
-They will be detected and included in queries automatically. 
-
-Whenever you modify the FamDB files, the RepeatMasker libraries must be regenerated.
+**Environment variable** (convenient for multiple runs or scripting):
 ```sh
-# run the container binding your host Libraries directory over the RepeatMasker directory
-docker run -it --rm -v <host path>/Libraries:/opt/RepeatMasker/Libraries dfam/tetools:<tag>
-
-# navigate to the RepeatMasker folder
-cd /opt/RepeatMasker
-
-# unlock libaries for reconfiguring 
-rm ./Libraries/famdb/rmlib.config
-
-# run the reconfigure script
-./tetoolsDfamUpdate.pl
+export FAMDB_DIR=/path/to/famdb
+./dfam-tetools.sh -- RepeatMasker genome.fa
 ```
 
-To include RepBase data, download and unzip `RepBaseRepeatMaskerEdition-#######.tar.gz` into `Libraries` and run the updater script.
+**Command-line flag** (when running tools directly inside the container):
 ```sh
-# Unpack the RepBase data
-tar -xvzf /work/path/to/Libaries/RepBaseRepeatMaskerEdition-#######.tar.gz
-
-# run the container. You can also use the first command above again
-./dfam-tetools.sh --docker
-
-# navigate to the RepeatMasker folder
-cd /opt/RepeatMasker
-
-# unlock libaries for reconfiguring 
-rm ./Libraries/famdb/rmlib.config
-
-# rerun the reconfigure script
-./tetoolsDfamUpdate.pl
+RepeatMasker --famdb_dir /path/to/famdb genome.fa
+RepeatModeler --famdb_dir /path/to/famdb -database genome1
 ```
 
-When using the image with the new `Libraries` folder, mount it to the container using the `-v` argument.
-All paths must be absolute. `./dfam-tetools.sh` does this automatically.
-```
--v <host filesystem path to Libraries>/Libraries:/opt/RepeatMasker/Libraries
-```
-Note that the process for modifying the files in a Singularity container is identical, but the arguments vary slightly. For example, instead of `-v` Singularity uses `-B`. `dfam-tetools.sh` also does not currently automatically mount host library directories for Singularity. 
-
-
-<br>
-You can now specify this `Libraries/` directory by setting the `LIBDIR`
-environment variable, for example with the `export LIBDIR=` command or `-e
-LIBDIR=` depending on you are running the container. 
-
-When you use a new version of the TETools container (particularly a new RepeatMasker), 
-you should re-create the `Libraries` directory for the new version.
-
+When using `--famdb` (or `FAMDB_DIR`) with the wrapper script, the directory is
+mounted into the container at `/famdb` and `FAMDB_DIR` is set to `/famdb`
+automatically; the wrapper prints a message to the screen when it does this.
+If both are given, `--famdb` takes precedence. When running the
+container manually, mount the directory yourself and set `FAMDB_DIR` or use
+`--famdb_dir` directly:
 ```sh
-# Set the LIBDIR environment variable before running RepeatMasker
-export LIBDIR=/path/to/Libraries
-RepeatMasker genome.fa
+# Docker
+docker run -it --rm -v /path/to/famdb:/famdb -e FAMDB_DIR=/famdb dfam/tetools:<tag>
+
+# Singularity
+singularity exec --cleanenv -B /path/to/famdb:/famdb --env FAMDB_DIR=/famdb docker://dfam/tetools:<tag> /bin/bash --norc --noprofile
 ```
+
 
 ## Building the Container
 
@@ -208,12 +187,12 @@ singularity build dfam-tetools.sif dfam-tetools.def
 
 ## Included software
 
-The following software is included in the Dfam TE Tools container (version `2.00`):
+The following software is included in the Dfam TE Tools container (version `2.01`):
 
 | | | |
 | -------------- | -------- | --- |
 | RepeatModeler  | 2.0.9    | <https://github.com/Dfam-consortium/RepeatModeler>
-| RepeatMasker   | 4.2.4    | <http://www.repeatmasker.org/RMDownload.html>
+| RepeatMasker   | 4.2.6    | <https://github.com/Dfam-consortium/RepeatMasker>
 | FamDB          | 3.0.0    | <https://github.com/Dfam-consortium/FamDB>
 | coseg          | 0.2.3    | <http://www.repeatmasker.org/COSEGDownload.html>
 | RMBlast        | 2.17.1   | <http://www.repeatmasker.org/RMBlast.html>

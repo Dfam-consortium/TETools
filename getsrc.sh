@@ -35,7 +35,7 @@ download https://mafft.cbrc.jp/alignment/software/mafft-7.471-without-extensions
 download https://github.com/TravisWheelerLab/NINJA/archive/1.00-cluster_only.tar.gz NINJA-cluster.tar.gz
 download https://github.com/rmhubley/coseg/archive/refs/tags/coseg-0.2.3.tar.gz
 download https://github.com/Dfam-consortium/RepeatAfterMe/archive/RepeatAfterMe_V0.0.7.tar.gz
-download http://www.repeatmasker.org/RepeatMasker/RepeatMasker-4.2.4.tar.gz
+download https://github.com/Dfam-consortium/RepeatMasker/archive/refs/tags/v4.2.6.tar.gz RepeatMasker-4.2.6.tar.gz
 download https://github.com/Dfam-consortium/FamDB/archive/refs/tags/3.0.0.tar.gz FamDB-3.0.0.tar.gz
 download https://github.com/Dfam-consortium/RepeatModeler/archive/2.0.9.tar.gz RepeatModeler-2.0.9.tar.gz
 

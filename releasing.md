@@ -23,6 +23,7 @@ Build location can be changed. https://www.digitalocean.com/community/questions/
 6. Pull complete container 
   * `docker pull dfam/tetools:dev` -->
 7. Commit and tag in git as x.y
+  * run `git commit -a -m "Release x.y"`
   * run `git tag -a <x.y>`
   * For example, if the new version is 1.97 then use `git tag -a 1.97`
 8. Tag the container (in docker) as `:x`, `:x.y`, and `:latest`

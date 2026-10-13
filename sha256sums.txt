@@ -3,7 +3,7 @@ e2d94f6179c33990a77fa9fdcefb842c8481b4c30833c9c12cbbe54cb3fdda73 *LTR_retriever-
 3138d74522df9531e7573cf801bacc6a36768ae3c606a4b046cbd4c1acd9ca4c *NINJA-cluster.tar.gz
 d40bcbe2b842b3bde31e6f460176ea8d1facece89920568f12a1f7abe6a9c42c *RECON-1.10.tar.gz
 8a4c96be6c0fcedf24ee28796fea3bffef022c7479d8f49fbd2f83e56d697f26 *RepeatAfterMe_V0.0.7.tar.gz
-7407b42909c64b7ae080efb737f3f725327be81ace1ec0cd9dc13c4a503885d7 *RepeatMasker-4.2.4.tar.gz
+05e1ac50a8918de9b7dea6a298ca08702d518ec399489e7ae32d6b10addec1cf *RepeatMasker-4.2.6.tar.gz
 da7d16c97458059fd12e4d7054ee7695ea3855b8660c450452875685086c5e2f *RepeatModeler-2.0.9.tar.gz
 aec393f87aa03efdceb9b664e43de102ed7d83ed1c2cbac3ac53e8cda96e08f9 *RepeatScout-1.0.7.tar.gz
 26172dba3040d1ae5c73ff0ac6c3be8c8e60cc49fc7379e434cdf9cb1e7415de *cd-hit-v4.8.1-2019-0228.tar.gz

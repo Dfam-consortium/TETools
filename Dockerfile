@@ -10,10 +10,12 @@ RUN apt-get -y update && apt-get -y install \
     libgomp1 \
     perl \
     python3-h5py \
+    python3-pandas \
     libfile-which-perl \
     libtext-soundex-perl \
     libjson-perl liburi-perl libwww-perl \
     libdevel-size-perl \
+    libgd-perl \
     aptitude && aptitude install -y ~pstandard ~prequired \
     curl wget \
     vim nano \
@@ -34,7 +36,12 @@ RUN mkdir /opt/FamDB-Dfam-4.0 \
     && tar --strip-components=1 -x -f /opt/src/FamDB-3.0.0.tar.gz -C /opt/FamDB-Dfam-4.0 \
     && mkdir /opt/FamDB-Dfam-4.0/Libraries/famdb \
     && gunzip -c /opt/src/dfam40.0.h5.gz > /opt/FamDB-Dfam-4.0/Libraries/famdb/dfam40.0.h5 \
-    && gunzip -c /opt/src/dfam40.curated.consensus.0.h5.gz > /opt/FamDB-Dfam-4.0/Libraries/famdb/dfam40.curated.consensus.0.h5 
+    && gunzip -c /opt/src/dfam40.curated.consensus.0.h5.gz > /opt/FamDB-Dfam-4.0/Libraries/famdb/dfam40.curated.consensus.0.h5 \
+    && sed -i '1s@^#!.*python3.*@#!/usr/bin/python3@' /opt/FamDB-Dfam-4.0/famdb.py
+
+# NOTE: The famdb.py shebang is pinned to the system python3 (which has h5py)
+#       so that a python3 inherited from the host environment (e.g. an active
+#       conda env without h5py) cannot be picked up by RepeatMasker/RepeatModeler.
 
 # Extract RMBlast
 RUN mkdir /opt/rmblast && \
@@ -131,9 +138,9 @@ RUN cd /opt \
 # Configure RepeatMasker
 # With Minimal TE Library
 #   - Also with full Dfam curated RepeatMasker.lib for RepeatClassifier
-RUN cd /opt \
-    && tar -x -f src/RepeatMasker-4.2.4.tar.gz \
-    && cd RepeatMasker \
+RUN mkdir /opt/RepeatMasker \
+    && tar --strip-components=1 -x -f /opt/src/RepeatMasker-4.2.6.tar.gz -C /opt/RepeatMasker \
+    && cd /opt/RepeatMasker \
     && perl configure \
         -famdb_dir=/opt/FamDB-Dfam-4.0 \
         -hmmer_dir=/opt/hmmer/bin \
@@ -141,9 +148,6 @@ RUN cd /opt \
         -trf_prgm=/opt/trf \
         -default_search_engine=rmblast \
     && cd ..
-
-# Include config update
-COPY tetoolsDfamUpdate.pl /opt/RepeatMasker/tetoolsDfamUpdate.pl
 
 # Unpack RepeatAfterMe
 RUN cd /opt \
@@ -178,7 +182,7 @@ ENV LANGUAGE=en_US:en
 ENV LC_ALL=en_US.UTF-8     
 
 ENV PYTHONIOENCODING=utf8
-ENV PATH=/opt/RepeatMasker:/opt/RepeatMasker/util:/opt/RepeatModeler:/opt/RepeatModeler/util:/opt/coseg:/opt/ucsc_tools:/opt:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/opt/rmblast/bin:/bin
+ENV PATH=/opt/RepeatMasker:/opt/RepeatMasker/util:/opt/RepeatModeler:/opt/RepeatModeler/util:/opt/coseg:/opt/ucsc_tools:/opt/FamDB:/opt:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/opt/rmblast/bin:/bin
 ENV BLAST_USAGE_REPORT=false
 
 ENV REPEATMODELER_DIR='/opt/RepeatModeler'

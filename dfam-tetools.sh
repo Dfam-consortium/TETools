@@ -15,13 +15,15 @@ usage() {
 printf "%s\n" "Usage: dfam-tetools.sh [-h|--help]
 	[--container=/path/to/dfam-tetools.sif | --container=dfam/tetools:tag]
 	[--docker | --singularity]
-	[--library]
+	[--famdb=/path/to/famdb]
 	[-- command [arg1 [arg2 [...]]]]
 
 --container	Choose a specific container to use (a .sif file or a docker image ID or tag)
 --docker	    Run the container via docker
 --singularity	Run the container via singularity
---library       A directory containing modified RepeatMasker/Libraries files
+--famdb         Path to an external FamDB installation (the directory containing famdb.py).
+                It is mounted in the container at /famdb.  If not given, the FAMDB_DIR
+                environment variable is used instead, if set.
 command		    A command to run in the container instead of an interactive shell
 
 If neither --docker nor --singularity is specified and both
@@ -31,11 +33,10 @@ programs are available, singularity is preferred."
 
 ## Parse command-line arguments ##
 
-container="dfam/tetools:2.00"
+container="dfam/tetools:2.01"
 use_docker=0
 use_singularity=0
-use_lib=0
-workdir=""
+famdb_dir=""
 bind_cmd=""
 
 while [ $# -ge 1 ]; do
@@ -68,10 +69,17 @@ The --trf_prgm parameter was ignored." >&2
 	--singularity)
 		use_singularity=1
 		;;
-	--library)
-		use_lib=1
-		workdir="$1"
+	--famdb)
+		famdb_dir="$1"
 		shift
+		;;
+	--library)
+		die "Error: The --library option was removed in Dfam TE Tools 2.00.
+RepeatMasker and RepeatModeler now read Dfam directly from FamDB, and
+tetoolsDfamUpdate.pl is no longer used. To use additional Dfam partitions,
+install FamDB on the host and use --famdb instead. See the README section
+\"Using an external FamDB installation\":
+  https://github.com/Dfam-consortium/TETools#using-an-external-famdb-installation"
 		;;
 	*)
 		die "Unrecognized argument: $opt
@@ -104,31 +112,69 @@ if [ "$use_singularity" = 1 ] && ! [ -e "$container" ]; then
 	container="docker://$container"
 fi
 
+# If --famdb was not given, fall back to a FAMDB_DIR set in the host
+# environment. Either way the directory is mounted into the container at
+# /famdb, as a host path is not necessarily visible inside the container.
+famdb_src="--famdb"
+if [ -z "$famdb_dir" ] && [ -n "${FAMDB_DIR-}" ]; then
+	famdb_dir="$FAMDB_DIR"
+	famdb_src="FAMDB_DIR"
+fi
+unset FAMDB_DIR
+
+# Ensure the FamDB directory is a FamDB installation (not just a directory
+# of *.h5 partition files)
+if [ -n "$famdb_dir" ]; then
+	if ! [ -f "$famdb_dir/famdb.py" ]; then
+		die "Error: $famdb_src must point to a FamDB installation directory
+(the directory containing famdb.py), but '$famdb_dir/famdb.py' was not found.
+Install FamDB from https://github.com/Dfam-consortium/FamDB and use its
+utils/download_dfam.py script to download the Dfam partitions you need."
+	fi
+	# Bind mounts require an absolute path
+	famdb_dir=$(cd "$famdb_dir" && pwd)
+	echo "Using external FamDB ($famdb_src): mounting $famdb_dir at /famdb (FAMDB_DIR=/famdb)" >&2
+fi
+
 ## Run the container ##
 
 if [ "$use_docker" = 1 ]; then
-	if [ "$use_lib" = 1 ]; then
-		bind_cmd="--mount type=bind,source=$workdir,target=/opt/RepeatMasker/Libraries"
+	if [ -n "$famdb_dir" ]; then
+		bind_cmd="--mount type=bind,source=$famdb_dir,target=/famdb"
+		FAMDB_DIR="/famdb"
 	fi
 	docker run -it --rm \
 		--init \
 		$bind_cmd \
+		${FAMDB_DIR:+-e FAMDB_DIR="$FAMDB_DIR"} \
 		--user "$(id -u):$(id -g)" \
 		--workdir "/opt" \
 		"$container" \
 		"$@"
 elif [ "$use_singularity" = 1 ]; then
-	if [ "$use_lib" = 1 ]; then
-		bind_cmd="-B $workdir:/opt/RepeatMasker/Libraries"
+	if [ -n "$famdb_dir" ]; then
+		bind_cmd="-B $famdb_dir:/famdb"
+		FAMDB_DIR="/famdb"
 	fi
+	#
+	# Singularity maps the users home directory and thus when
+	# using with a shell it would typically read in the home/.bashrc
+	# file.  This has been known to cause issues -- for example the
+	# user's path points to a non-existent directory or overrides 
+	# the python interpreter with uninstalled dependencies etc.
+	# To avoid this, we use --norc and --noprofile to prevent bash 
+	# from reading these files.
+	#
 	if [ $# -eq 0 ]; then
-		set -- "/bin/bash"
+		set -- /bin/bash --norc --noprofile -i
 	fi
 	export LANG=C
-	singularity exec \
-		$bind_cmd \
-		"$container" \
-		"$@"
+        singularity exec \
+            --cleanenv \
+	    ${FAMDB_DIR:+--env FAMDB_DIR="$FAMDB_DIR"} \
+            $bind_cmd \
+            "$container" \
+	    "$@"
 fi
 
 
